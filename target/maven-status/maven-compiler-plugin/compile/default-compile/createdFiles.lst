@@ -1,0 +1,17 @@
+br\edu\ifnmg\rockinrio\gui\EdicaoTarefa$3.class
+br\edu\ifnmg\rockinrio\dao\AbstractDao.class
+br\edu\ifnmg\rockinrio\dao\IDao.class
+br\edu\ifnmg\rockinrio\gui\CadastroTarefa$4.class
+br\edu\ifnmg\rockinrio\gui\CadastroTarefa$2.class
+br\edu\ifnmg\rockinrio\gui\EdicaoTarefa$1.class
+br\edu\ifnmg\rockinrio\gui\CadastroTarefa.class
+br\edu\ifnmg\rockinrio\gui\EdicaoTarefa$2.class
+br\edu\ifnmg\rockinrio\gui\CadastroTarefa$5.class
+br\edu\ifnmg\rockinrio\gui\CadastroTarefa$1.class
+br\edu\ifnmg\rockinrio\gui\CadastroTarefa$6.class
+br\edu\ifnmg\rockinrio\entity\Entidade.class
+br\edu\ifnmg\rockinrio\entity\Tarefa.class
+br\edu\ifnmg\rockinrio\dao\ConexaoBd.class
+br\edu\ifnmg\rockinrio\dao\TarefaDao.class
+br\edu\ifnmg\rockinrio\gui\EdicaoTarefa.class
+br\edu\ifnmg\rockinrio\gui\CadastroTarefa$3.class
