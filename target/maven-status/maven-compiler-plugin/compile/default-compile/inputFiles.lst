@@ -1,8 +1,1 @@
-C:\Users\JVAmorim\Documents\NetBeansProjects\RockInRio\src\main\java\br\edu\ifnmg\rockinrio\entity\Entidade.java
-C:\Users\JVAmorim\Documents\NetBeansProjects\RockInRio\src\main\java\br\edu\ifnmg\rockinrio\dao\TarefaDao.java
-C:\Users\JVAmorim\Documents\NetBeansProjects\RockInRio\src\main\java\br\edu\ifnmg\rockinrio\gui\EdicaoTarefa.java
-C:\Users\JVAmorim\Documents\NetBeansProjects\RockInRio\src\main\java\br\edu\ifnmg\rockinrio\dao\ConexaoBd.java
-C:\Users\JVAmorim\Documents\NetBeansProjects\RockInRio\src\main\java\br\edu\ifnmg\rockinrio\dao\IDao.java
-C:\Users\JVAmorim\Documents\NetBeansProjects\RockInRio\src\main\java\br\edu\ifnmg\rockinrio\dao\AbstractDao.java
-C:\Users\JVAmorim\Documents\NetBeansProjects\RockInRio\src\main\java\br\edu\ifnmg\rockinrio\entity\Tarefa.java
-C:\Users\JVAmorim\Documents\NetBeansProjects\RockInRio\src\main\java\br\edu\ifnmg\rockinrio\gui\CadastroTarefa.java
+C:\Users\JVAmorim\Documents\NetBeansProjects\RockInRio\src\main\java\br\edu\ifnmg\rockinrio\database\ConexaoBd.java
