@@ -6,10 +6,10 @@ package br.edu.ifnmg.rockinrio.entity;
 import java.util.Date;
 
 public class Pessoa {
-    private String cpf;
-    private String nome;
-    private Date dataNascimento;
-    private Endereco endereco;
+    private final String cpf;
+    private final String nome;
+    private final Date dataNascimento;
+    private final Endereco endereco;
 
     public Pessoa(String cpf, String nome, Date dataNascimento, Endereco endereco) {
         this.cpf = cpf;
