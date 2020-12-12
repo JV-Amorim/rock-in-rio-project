@@ -35,6 +35,10 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void atualizarModelo(Ocorrencia ocorrencia) {
+        ocorrenciasEditaveis.set(indiceOcorrenciaEditavelSelecionada, ocorrencia);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -75,6 +79,11 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
 
         menuItemEditar.setMnemonic('e');
         menuItemEditar.setText("Editar");
+        menuItemEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemEditarActionPerformed(evt);
+            }
+        });
         popUpMenuEditaveis.add(menuItemEditar);
 
         menuItemExcluir.setMnemonic('x');
@@ -236,6 +245,13 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
     private void menuItemDetalhesEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemDetalhesEActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_menuItemDetalhesEActionPerformed
+
+    private void menuItemEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemEditarActionPerformed
+        var edicaoOcorrenciaDialog = 
+            new EdicaoOcorrenciaDialog(this, listaOcorrenciasEditaveis.getSelectedValue());
+        edicaoOcorrenciaDialog.setLocationRelativeTo(this);
+        edicaoOcorrenciaDialog.setVisible(true);
+    }//GEN-LAST:event_menuItemEditarActionPerformed
 
     /**
      * @param args the command line arguments

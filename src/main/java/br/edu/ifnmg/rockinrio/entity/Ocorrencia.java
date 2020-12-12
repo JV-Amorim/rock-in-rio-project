@@ -3,25 +3,28 @@
  */
 package br.edu.ifnmg.rockinrio.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Ocorrencia {
     private int numero; // Auto Generated PK
-    private final String cpfProfissionalSeguranca;
-    private final String cpfPessoa;
-    private final Date dataHora;
-    private final String descricao;
-    private final Double latitude;
-    private final Double longitude;
+    private String cpfProfissionalSeguranca;
+    private String cpfPessoa;
+    private LocalDate dataOcorrencia;
+    private String descricao;
+    private Double latitude;
+    private Double longitude;
     private String nomePessoa;
 
     //<editor-fold defaultstate="collapsed" desc="Constructors">
+    
+    public Ocorrencia() { }
     
     public Ocorrencia(
         int numero,
         String cpfProfissionalSeguranca,
         String cpfPessoa,
-        Date dataHora,
+        LocalDate dataOcorrencia,
         String descricao,
         Double latitude,
         Double longitude
@@ -29,23 +32,7 @@ public class Ocorrencia {
         this.numero = numero;
         this.cpfProfissionalSeguranca = cpfProfissionalSeguranca;
         this.cpfPessoa = cpfPessoa;
-        this.dataHora = dataHora;
-        this.descricao = descricao;
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
-
-    public Ocorrencia(
-        String cpfProfissionalSeguranca,
-        String cpfPessoa,
-        Date dataHora,
-        String descricao,
-        Double latitude,
-        Double longitude
-    ) {
-        this.cpfProfissionalSeguranca = cpfProfissionalSeguranca;
-        this.cpfPessoa = cpfPessoa;
-        this.dataHora = dataHora;
+        this.dataOcorrencia = dataOcorrencia;
         this.descricao = descricao;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -67,8 +54,22 @@ public class Ocorrencia {
         return cpfPessoa;
     }
 
-    public Date getDataHora() {
-        return dataHora;
+    public LocalDate getDataOcorrencia() {
+        return dataOcorrencia;
+    }
+
+    public String getDataOcorrenciaEmString(boolean formatoBR) {
+        if (formatoBR) {
+            String brDate = dataOcorrencia.toString();
+            brDate =
+                brDate.substring(8, 10) + "/" + 
+                brDate.substring(5, 7) + "/" +
+                brDate.substring(0, 4);
+            return brDate;
+        }
+        else {
+            return getDataOcorrencia().toString();
+        }
     }
 
     public String getDescricao() {
@@ -86,13 +87,36 @@ public class Ocorrencia {
     public String getNomePessoa() {
         return nomePessoa;
     }
-    
+
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Setters">
-    
     public void setNumero(int numero) {
         this.numero = numero;
+    }
+    
+    public void setCpfProfissionalSeguranca(String cpfProfissionalSeguranca) {
+        this.cpfProfissionalSeguranca = cpfProfissionalSeguranca;
+    }
+
+    public void setCpfPessoa(String cpfPessoa) {
+        this.cpfPessoa = cpfPessoa;
+    }
+
+    public void setDataOcorrencia(LocalDate dataOcorrencia) {
+        this.dataOcorrencia = dataOcorrencia;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+    
+    public void setLongitude(Double longitude) {    
+        this.longitude = longitude;
     }
 
     public void setNomePessoa(String nomePessoa) {
@@ -100,15 +124,9 @@ public class Ocorrencia {
     }
     
     //</editor-fold>
-
+    
     @Override
     public String toString() {
-        String brDate = dataHora.toString();
-        brDate =
-            brDate.substring(8, 10) + "/" + 
-            brDate.substring(5, 7) + "/" +
-            brDate.substring(0, 4);
-                
-        return "Nº " + numero + " | " + nomePessoa + " | " + brDate;
+        return "Nº " + numero + " | " + nomePessoa + " | " + getDataOcorrenciaEmString(true);
     }
 }

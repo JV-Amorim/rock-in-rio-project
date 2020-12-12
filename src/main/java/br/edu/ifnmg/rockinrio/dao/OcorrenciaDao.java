@@ -4,6 +4,7 @@
 package br.edu.ifnmg.rockinrio.dao;
 
 import br.edu.ifnmg.rockinrio.entity.Ocorrencia;
+import br.edu.ifnmg.rockinrio.helper.LocalDateHelper;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,8 +16,44 @@ public final class OcorrenciaDao {
     private OcorrenciaDao() { }
     //</editor-fold>
     
-    public static Object inserir(Object obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static Boolean inserir(Ocorrencia ocorrencia) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public static Boolean atualizar(Ocorrencia ocorrencia) {
+        var connection = DatabaseManager.getConnection();
+        
+        String sqlStatement =
+            "UPDATE OCORRENCIA SET "
+            + "DTCONTRATACAO=?, DATAOCORRENCIA=?, DESCRIÇÃO=?, LONGITUDE=?, LATITUDE=? "
+            + "WHERE NUMERO=?";
+        
+        try (PreparedStatement pstmt = connection.prepareStatement(sqlStatement)) {
+            pstmt.setDate(1, LocalDateHelper.localDateToSqlDate(ocorrencia.getDataOcorrencia()));
+            pstmt.setDate(2, java.sql.Date.valueOf(ocorrencia.getDataOcorrencia()));
+            pstmt.setString(3, ocorrencia.getDescricao());
+            pstmt.setDouble(4, ocorrencia.getLongitude());
+            pstmt.setDouble(5, ocorrencia.getLatitude());
+            pstmt.setInt(6, ocorrencia.getNumero());
+            pstmt.executeUpdate();
+        }
+	catch (Exception e) {
+            return false;
+        }
+        
+        String sqlStatement2 =
+            "UPDATE OCORRENCIAPESSOA SET CPFPESSOA=? WHERE NUMEROOCORRENCIA=?";
+        
+        try (PreparedStatement pstmt = connection.prepareStatement(sqlStatement2)) {
+            pstmt.setString(1, ocorrencia.getCpfPessoa());
+            pstmt.setInt(2, ocorrencia.getNumero());
+            pstmt.executeUpdate();
+        }
+	catch (Exception e) {
+            return false;
+        }
+        
+        return true;
     }
 
     public static ArrayList<Ocorrencia> obterTodos() {
@@ -29,23 +66,20 @@ public final class OcorrenciaDao {
             + "JOIN PESSOA ON CPFPESSOA=CPF "
             + "ORDER BY NUMEROOCORRENCIA";
         
-        try (PreparedStatement pstmt =  DatabaseManager.getConnection().prepareStatement(sqlStatement)) {
+        try (PreparedStatement pstmt = DatabaseManager.getConnection().prepareStatement(sqlStatement)) {
             ResultSet resultSet = pstmt.executeQuery();
             ocorrencias = gerarObjetos(resultSet);
         }
 	catch (Exception e) {
+            // TODO - Exibir mensagem de erro.
             e.printStackTrace();
         }
         
         return ocorrencias;
     }
 
-    public static Boolean excluir(Object obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private static Object gerarObjeto(ResultSet resultSet) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static Boolean excluir(Ocorrencia ocorrencia) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     private static ArrayList<Ocorrencia> gerarObjetos(ResultSet resultSet) {
@@ -58,7 +92,7 @@ public final class OcorrenciaDao {
                         resultSet.getInt("NUMERO"),
                         resultSet.getString("CPFPROFISSIONALSEG"),
                         resultSet.getString("CPFPESSOA"),
-                        resultSet.getDate("DATAOCORRENCIA"),
+                        LocalDateHelper.sqlDateToLocalDate(resultSet.getDate("DATAOCORRENCIA")),
                         resultSet.getString("DESCRIÇÃO"),
                         resultSet.getDouble("LATITUDE"),
                         resultSet.getDouble("LONGITUDE")
@@ -68,6 +102,7 @@ public final class OcorrenciaDao {
             }
         }
         catch (SQLException e) {
+            // TODO - Exibir mensagem de erro.
             e.printStackTrace();
         }
 
