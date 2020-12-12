@@ -13,8 +13,19 @@ public class Ocorrencia {
     private final String descricao;
     private final Double latitude;
     private final Double longitude;
+    private String nomePessoa;
 
-    public Ocorrencia(int numero, String cpfProfissionalSeguranca, String cpfPessoa, Date dataHora, String descricao, Double latitude, Double longitude) {
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
+    
+    public Ocorrencia(
+        int numero,
+        String cpfProfissionalSeguranca,
+        String cpfPessoa,
+        Date dataHora,
+        String descricao,
+        Double latitude,
+        Double longitude
+    ) {
         this.numero = numero;
         this.cpfProfissionalSeguranca = cpfProfissionalSeguranca;
         this.cpfPessoa = cpfPessoa;
@@ -24,7 +35,14 @@ public class Ocorrencia {
         this.longitude = longitude;
     }
 
-    public Ocorrencia(String cpfProfissionalSeguranca, String cpfPessoa, Date dataHora, String descricao, Double latitude, Double longitude) {
+    public Ocorrencia(
+        String cpfProfissionalSeguranca,
+        String cpfPessoa,
+        Date dataHora,
+        String descricao,
+        Double latitude,
+        Double longitude
+    ) {
         this.cpfProfissionalSeguranca = cpfProfissionalSeguranca;
         this.cpfPessoa = cpfPessoa;
         this.dataHora = dataHora;
@@ -32,6 +50,8 @@ public class Ocorrencia {
         this.latitude = latitude;
         this.longitude = longitude;
     }
+    
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Getters">
     
@@ -62,6 +82,10 @@ public class Ocorrencia {
     public Double getLongitude() {
         return longitude;
     }
+
+    public String getNomePessoa() {
+        return nomePessoa;
+    }
     
     //</editor-fold>
     
@@ -70,11 +94,21 @@ public class Ocorrencia {
     public void setNumero(int numero) {
         this.numero = numero;
     }
+
+    public void setNomePessoa(String nomePessoa) {
+        this.nomePessoa = nomePessoa;
+    }
     
     //</editor-fold>
 
     @Override
     public String toString() {
-       return numero + " - " + dataHora;
+        String brDate = dataHora.toString();
+        brDate =
+            brDate.substring(8, 10) + "/" + 
+            brDate.substring(5, 7) + "/" +
+            brDate.substring(0, 4);
+                
+        return "Nº " + numero + " | " + nomePessoa + " | " + brDate;
     }
 }

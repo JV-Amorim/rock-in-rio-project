@@ -24,13 +24,22 @@ public class CadastroOcorrenciaDialog extends javax.swing.JDialog {
         buttonRetornarMenuPrincipal = new javax.swing.JButton();
         tituloPrincipal = new javax.swing.JLabel();
         nomeUsuarioLogado = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        pessoaLabel = new javax.swing.JLabel();
+        pessoaDropdown = new javax.swing.JComboBox<>();
+        descricaoLabel = new javax.swing.JLabel();
+        descricaoScrollRect = new javax.swing.JScrollPane();
+        descricaoTextField = new javax.swing.JTextArea();
+        dataLabel = new javax.swing.JLabel();
+        dataTextField = new javax.swing.JFormattedTextField();
+        latitudeLabel = new javax.swing.JLabel();
+        LatitudeTextField = new javax.swing.JTextField();
+        longitudeLabel = new javax.swing.JLabel();
+        longitudeTextField = new javax.swing.JTextField();
+        salvarButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Rock In Rio - Gerenciamento de Ocorrências");
         setModal(true);
-        setPreferredSize(new java.awt.Dimension(610, 340));
         setResizable(false);
 
         retornarMenuPrincipal.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
@@ -51,17 +60,48 @@ public class CadastroOcorrenciaDialog extends javax.swing.JDialog {
         nomeUsuarioLogado.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         nomeUsuarioLogado.setText("Usuário: _______________________");
 
-        jTextField1.setText("Teste");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
+        pessoaLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        pessoaLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        pessoaLabel.setText("Pessoa");
 
-        jButton1.setText("Testar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        pessoaDropdown.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+
+        descricaoLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        descricaoLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        descricaoLabel.setText("Descrição");
+
+        descricaoTextField.setColumns(20);
+        descricaoTextField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        descricaoTextField.setLineWrap(true);
+        descricaoTextField.setRows(5);
+        descricaoScrollRect.setViewportView(descricaoTextField);
+
+        dataLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        dataLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        dataLabel.setText("Data");
+
+        dataTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        dataTextField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+
+        latitudeLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        latitudeLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        latitudeLabel.setText("Latitude");
+
+        LatitudeTextField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        LatitudeTextField.setToolTipText("");
+
+        longitudeLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        longitudeLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        longitudeLabel.setText("Longitude");
+
+        longitudeTextField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        longitudeTextField.setToolTipText("");
+
+        salvarButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        salvarButton.setText("Salvar");
+        salvarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                salvarButtonActionPerformed(evt);
             }
         });
 
@@ -71,17 +111,36 @@ public class CadastroOcorrenciaDialog extends javax.swing.JDialog {
             painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelPrincipalLayout.createSequentialGroup()
                 .addComponent(tituloPrincipal)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 231, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(nomeUsuarioLogado, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(painelPrincipalLayout.createSequentialGroup()
-                .addComponent(buttonRetornarMenuPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pessoaLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(retornarMenuPrincipal)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(pessoaDropdown, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(painelPrincipalLayout.createSequentialGroup()
-                .addComponent(jTextField1)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1))
+                .addComponent(descricaoLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(descricaoScrollRect))
+            .addComponent(salvarButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(painelPrincipalLayout.createSequentialGroup()
+                .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelPrincipalLayout.createSequentialGroup()
+                        .addComponent(dataLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(dataTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(latitudeLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(LatitudeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(longitudeLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(longitudeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(painelPrincipalLayout.createSequentialGroup()
+                        .addComponent(buttonRetornarMenuPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(retornarMenuPrincipal)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         painelPrincipalLayout.setVerticalGroup(
             painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -95,9 +154,23 @@ public class CadastroOcorrenciaDialog extends javax.swing.JDialog {
                     .addComponent(tituloPrincipal))
                 .addGap(18, 18, 18)
                 .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addGap(0, 217, Short.MAX_VALUE))
+                    .addComponent(pessoaDropdown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pessoaLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(descricaoScrollRect, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(descricaoLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dataTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dataLabel)
+                    .addComponent(longitudeLabel)
+                    .addComponent(longitudeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(latitudeLabel)
+                    .addComponent(LatitudeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(salvarButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -113,8 +186,7 @@ public class CadastroOcorrenciaDialog extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(painelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(painelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -124,13 +196,9 @@ public class CadastroOcorrenciaDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonRetornarMenuPrincipalActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void salvarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_salvarButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -176,12 +244,22 @@ public class CadastroOcorrenciaDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField LatitudeTextField;
     private javax.swing.JButton buttonRetornarMenuPrincipal;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel dataLabel;
+    private javax.swing.JFormattedTextField dataTextField;
+    private javax.swing.JLabel descricaoLabel;
+    private javax.swing.JScrollPane descricaoScrollRect;
+    private javax.swing.JTextArea descricaoTextField;
+    private javax.swing.JLabel latitudeLabel;
+    private javax.swing.JLabel longitudeLabel;
+    private javax.swing.JTextField longitudeTextField;
     private javax.swing.JLabel nomeUsuarioLogado;
     private javax.swing.JPanel painelPrincipal;
+    private javax.swing.JComboBox<String> pessoaDropdown;
+    private javax.swing.JLabel pessoaLabel;
     private javax.swing.JLabel retornarMenuPrincipal;
+    private javax.swing.JButton salvarButton;
     private javax.swing.JLabel tituloPrincipal;
     // End of variables declaration//GEN-END:variables
 }

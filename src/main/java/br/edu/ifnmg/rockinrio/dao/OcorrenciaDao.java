@@ -22,7 +22,12 @@ public final class OcorrenciaDao {
     public static ArrayList<Ocorrencia> obterTodos() {
         ArrayList<Ocorrencia> ocorrencias = new ArrayList<>();
         
-        String sqlStatement = "SELECT * FROM OCORRENCIA JOIN OCORRENCIAPESSOA ON NUMERO=NUMEROOCORRENCIA";
+        String sqlStatement =
+            "SELECT * FROM "
+            + "(OCORRENCIA JOIN OCORRENCIAPESSOA "
+            + "ON NUMERO=NUMEROOCORRENCIA) "
+            + "JOIN PESSOA ON CPFPESSOA=CPF "
+            + "ORDER BY NUMEROOCORRENCIA";
         
         try (PreparedStatement pstmt =  DatabaseManager.getConnection().prepareStatement(sqlStatement)) {
             ResultSet resultSet = pstmt.executeQuery();
@@ -58,6 +63,7 @@ public final class OcorrenciaDao {
                         resultSet.getDouble("LATITUDE"),
                         resultSet.getDouble("LONGITUDE")
                     );
+                o.setNomePessoa(resultSet.getString("NOME"));
                 ocorrencias.add(o);
             }
         }

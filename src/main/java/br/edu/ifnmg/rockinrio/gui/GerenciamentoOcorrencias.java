@@ -6,12 +6,14 @@ package br.edu.ifnmg.rockinrio.gui;
 import br.edu.ifnmg.rockinrio.dao.OcorrenciaDao;
 import br.edu.ifnmg.rockinrio.entity.Ocorrencia;
 import javax.swing.DefaultListModel;
+import java.awt.event.MouseEvent;
 
 public class GerenciamentoOcorrencias extends javax.swing.JFrame {
 
     private DefaultListModel<Ocorrencia> ocorrenciasEditaveis;
     private DefaultListModel<Ocorrencia> ocorrenciasLeitura;
-    private int indiceOcorrenciaSelecionada;
+    private int indiceOcorrenciaEditavelSelecionada;
+    private int indiceOcorrenciaLeituraSelecionada;
     
     public GerenciamentoOcorrencias() {
         initData();
@@ -24,14 +26,14 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
         
         var ocorrencias = OcorrenciaDao.obterTodos();
         
-        for (Ocorrencia ocorrencia : ocorrencias) {
+        ocorrencias.forEach(ocorrencia -> {
             if ("54079310530".equals(ocorrencia.getCpfProfissionalSeguranca())) {
                 ocorrenciasEditaveis.addElement(ocorrencia);
             }
             else {
                 ocorrenciasLeitura.addElement(ocorrencia);
             }
-        }
+        });
     }
 
     /**
@@ -43,10 +45,12 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        popUpMenu = new javax.swing.JPopupMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        popUpMenuEditaveis = new javax.swing.JPopupMenu();
+        menuItemDetalhesE = new javax.swing.JMenuItem();
         menuItemEditar = new javax.swing.JMenuItem();
         menuItemExcluir = new javax.swing.JMenuItem();
+        popUpMenuLeitura = new javax.swing.JPopupMenu();
+        menuItemDetalhesL = new javax.swing.JMenuItem();
         painelPrincipal = new javax.swing.JPanel();
         retornarMenuPrincipal = new javax.swing.JLabel();
         buttonRetornarMenuPrincipal = new javax.swing.JButton();
@@ -60,21 +64,31 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
         listaOcorrenciasLeitura = new javax.swing.JList<>();
         buttonRegistrarNovaOcorrencia = new javax.swing.JButton();
 
-        jMenuItem1.setMnemonic('d');
-        jMenuItem1.setText("Detalhes");
-        popUpMenu.add(jMenuItem1);
+        menuItemDetalhesE.setMnemonic('d');
+        menuItemDetalhesE.setText("Detalhes");
+        menuItemDetalhesE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemDetalhesEActionPerformed(evt);
+            }
+        });
+        popUpMenuEditaveis.add(menuItemDetalhesE);
 
         menuItemEditar.setMnemonic('e');
         menuItemEditar.setText("Editar");
-        popUpMenu.add(menuItemEditar);
+        popUpMenuEditaveis.add(menuItemEditar);
 
         menuItemExcluir.setMnemonic('x');
         menuItemExcluir.setText("Excluir");
-        popUpMenu.add(menuItemExcluir);
+        popUpMenuEditaveis.add(menuItemExcluir);
+
+        menuItemDetalhesL.setMnemonic('d');
+        menuItemDetalhesL.setText("Detalhes");
+        popUpMenuLeitura.add(menuItemDetalhesL);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Rock In Rio - Gerenciamento de Ocorrências");
         setName("frm-gerenciamento-ocorrencias"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(610, 340));
         setResizable(false);
 
         retornarMenuPrincipal.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
@@ -100,6 +114,11 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
 
         listaOcorrenciasEditaveis.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         listaOcorrenciasEditaveis.setModel(ocorrenciasEditaveis);
+        listaOcorrenciasEditaveis.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                listaOcorrenciasEditaveisMouseReleased(evt);
+            }
+        });
         scrollPanelOcorrenciasEditaveis.setViewportView(listaOcorrenciasEditaveis);
 
         porOutrosProfissionais.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
@@ -107,6 +126,11 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
 
         listaOcorrenciasLeitura.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         listaOcorrenciasLeitura.setModel(ocorrenciasLeitura);
+        listaOcorrenciasLeitura.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                listaOcorrenciasLeituraMouseReleased(evt);
+            }
+        });
         scrollPanelOcorrenciasLeitura.setViewportView(listaOcorrenciasLeitura);
 
         buttonRegistrarNovaOcorrencia.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
@@ -131,7 +155,7 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
                     .addGroup(painelPrincipalLayout.createSequentialGroup()
                         .addComponent(registradasPorVoce)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(buttonRegistrarNovaOcorrencia, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
+                    .addComponent(buttonRegistrarNovaOcorrencia, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
                     .addComponent(scrollPanelOcorrenciasEditaveis))
                 .addGap(18, 18, 18)
                 .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,6 +217,26 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonRetornarMenuPrincipalActionPerformed
 
+    private void listaOcorrenciasEditaveisMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaOcorrenciasEditaveisMouseReleased
+        if (evt.getButton() == MouseEvent.BUTTON3 && listaOcorrenciasEditaveis.getModel().getSize() > 0) {
+            indiceOcorrenciaEditavelSelecionada = listaOcorrenciasEditaveis.locationToIndex(evt.getPoint());
+            listaOcorrenciasEditaveis.setSelectedIndex(indiceOcorrenciaEditavelSelecionada);
+            popUpMenuEditaveis.show(listaOcorrenciasEditaveis, evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_listaOcorrenciasEditaveisMouseReleased
+
+    private void listaOcorrenciasLeituraMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaOcorrenciasLeituraMouseReleased
+        if (evt.getButton() == MouseEvent.BUTTON3 && listaOcorrenciasLeitura.getModel().getSize() > 0) {
+            indiceOcorrenciaLeituraSelecionada = listaOcorrenciasLeitura.locationToIndex(evt.getPoint());
+            listaOcorrenciasLeitura.setSelectedIndex(indiceOcorrenciaLeituraSelecionada);
+            popUpMenuLeitura.show(listaOcorrenciasLeitura, evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_listaOcorrenciasLeituraMouseReleased
+
+    private void menuItemDetalhesEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemDetalhesEActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuItemDetalhesEActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -231,14 +275,16 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonRegistrarNovaOcorrencia;
     private javax.swing.JButton buttonRetornarMenuPrincipal;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JList<Ocorrencia> listaOcorrenciasEditaveis;
     private javax.swing.JList<Ocorrencia> listaOcorrenciasLeitura;
+    private javax.swing.JMenuItem menuItemDetalhesE;
+    private javax.swing.JMenuItem menuItemDetalhesL;
     private javax.swing.JMenuItem menuItemEditar;
     private javax.swing.JMenuItem menuItemExcluir;
     private javax.swing.JLabel nomeUsuarioLogado;
     private javax.swing.JPanel painelPrincipal;
-    private javax.swing.JPopupMenu popUpMenu;
+    private javax.swing.JPopupMenu popUpMenuEditaveis;
+    private javax.swing.JPopupMenu popUpMenuLeitura;
     private javax.swing.JLabel porOutrosProfissionais;
     private javax.swing.JLabel registradasPorVoce;
     private javax.swing.JLabel retornarMenuPrincipal;
