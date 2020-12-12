@@ -3,17 +3,35 @@
  */
 package br.edu.ifnmg.rockinrio.gui;
 
-/**
- *
- * @author JVAmorim
- */
+import br.edu.ifnmg.rockinrio.dao.OcorrenciaDao;
+import br.edu.ifnmg.rockinrio.entity.Ocorrencia;
+import javax.swing.DefaultListModel;
+
 public class GerenciamentoOcorrencias extends javax.swing.JFrame {
 
-    /**
-     * Creates new form GerenciamentoOcorrencias
-     */
+    private DefaultListModel<Ocorrencia> ocorrenciasEditaveis;
+    private DefaultListModel<Ocorrencia> ocorrenciasLeitura;
+    private int indiceOcorrenciaSelecionada;
+    
     public GerenciamentoOcorrencias() {
+        initData();
         initComponents();
+    }
+    
+    private void initData() {
+        ocorrenciasEditaveis = new DefaultListModel<>();
+        ocorrenciasLeitura = new DefaultListModel<>();
+        
+        var ocorrencias = OcorrenciaDao.obterTodos();
+        
+        for (Ocorrencia ocorrencia : ocorrencias) {
+            if ("54079310530".equals(ocorrencia.getCpfProfissionalSeguranca())) {
+                ocorrenciasEditaveis.addElement(ocorrencia);
+            }
+            else {
+                ocorrenciasLeitura.addElement(ocorrencia);
+            }
+        }
     }
 
     /**
@@ -26,6 +44,7 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
     private void initComponents() {
 
         popUpMenu = new javax.swing.JPopupMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         menuItemEditar = new javax.swing.JMenuItem();
         menuItemExcluir = new javax.swing.JMenuItem();
         painelPrincipal = new javax.swing.JPanel();
@@ -40,6 +59,10 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
         scrollPanelOcorrenciasLeitura = new javax.swing.JScrollPane();
         listaOcorrenciasLeitura = new javax.swing.JList<>();
         buttonRegistrarNovaOcorrencia = new javax.swing.JButton();
+
+        jMenuItem1.setMnemonic('d');
+        jMenuItem1.setText("Detalhes");
+        popUpMenu.add(jMenuItem1);
 
         menuItemEditar.setMnemonic('e');
         menuItemEditar.setText("Editar");
@@ -66,7 +89,7 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
         });
 
         tituloPrincipal.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        tituloPrincipal.setText("Gerenciamento de Ocorrências");
+        tituloPrincipal.setText("Gerenciamento de ocorrências");
 
         nomeUsuarioLogado.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         nomeUsuarioLogado.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -76,22 +99,14 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
         registradasPorVoce.setText("Registradas por você:");
 
         listaOcorrenciasEditaveis.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        listaOcorrenciasEditaveis.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        listaOcorrenciasEditaveis.setModel(ocorrenciasEditaveis);
         scrollPanelOcorrenciasEditaveis.setViewportView(listaOcorrenciasEditaveis);
 
         porOutrosProfissionais.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         porOutrosProfissionais.setText("Por outros profissionais:");
 
         listaOcorrenciasLeitura.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        listaOcorrenciasLeitura.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        listaOcorrenciasLeitura.setModel(ocorrenciasLeitura);
         scrollPanelOcorrenciasLeitura.setViewportView(listaOcorrenciasLeitura);
 
         buttonRegistrarNovaOcorrencia.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
@@ -216,8 +231,9 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonRegistrarNovaOcorrencia;
     private javax.swing.JButton buttonRetornarMenuPrincipal;
-    private javax.swing.JList<String> listaOcorrenciasEditaveis;
-    private javax.swing.JList<String> listaOcorrenciasLeitura;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JList<Ocorrencia> listaOcorrenciasEditaveis;
+    private javax.swing.JList<Ocorrencia> listaOcorrenciasLeitura;
     private javax.swing.JMenuItem menuItemEditar;
     private javax.swing.JMenuItem menuItemExcluir;
     private javax.swing.JLabel nomeUsuarioLogado;

@@ -7,16 +7,26 @@ import java.util.Date;
 
 public class Ocorrencia {
     private int numero; // Auto Generated PK
-    private final ProfissionalSeguranca profissional;
-    private final Pessoa pessoa;
+    private final String cpfProfissionalSeguranca;
+    private final String cpfPessoa;
     private final Date dataHora;
     private final String descricao;
     private final Double latitude;
     private final Double longitude;
 
-    public Ocorrencia(ProfissionalSeguranca profissional, Pessoa pessoa, Date dataHora, String descricao, Double latitude, Double longitude) {
-        this.profissional = profissional;
-        this.pessoa = pessoa;
+    public Ocorrencia(int numero, String cpfProfissionalSeguranca, String cpfPessoa, Date dataHora, String descricao, Double latitude, Double longitude) {
+        this.numero = numero;
+        this.cpfProfissionalSeguranca = cpfProfissionalSeguranca;
+        this.cpfPessoa = cpfPessoa;
+        this.dataHora = dataHora;
+        this.descricao = descricao;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public Ocorrencia(String cpfProfissionalSeguranca, String cpfPessoa, Date dataHora, String descricao, Double latitude, Double longitude) {
+        this.cpfProfissionalSeguranca = cpfProfissionalSeguranca;
+        this.cpfPessoa = cpfPessoa;
         this.dataHora = dataHora;
         this.descricao = descricao;
         this.latitude = latitude;
@@ -29,12 +39,12 @@ public class Ocorrencia {
         return numero;
     }
 
-    public ProfissionalSeguranca getProfissional() {
-        return profissional;
+    public String getCpfProfissionalSeguranca() {
+        return cpfProfissionalSeguranca;
     }
 
-    public Pessoa getPessoa() {
-        return pessoa;
+    public String getCpfPessoa() {
+        return cpfPessoa;
     }
 
     public Date getDataHora() {
@@ -62,4 +72,9 @@ public class Ocorrencia {
     }
     
     //</editor-fold>
+
+    @Override
+    public String toString() {
+       return numero + " - " + dataHora;
+    }
 }
