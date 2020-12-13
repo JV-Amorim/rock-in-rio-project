@@ -3,13 +3,13 @@
  */
 package br.edu.ifnmg.rockinrio.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class ProfissionalSeguranca extends Pessoa {
     private final Long numeroCredencial;
 
-    public ProfissionalSeguranca(Long numeroCredencial, String cpf, String nome, Date dataNascimento, Endereco endereco) {
-        super(cpf, nome, dataNascimento, endereco);
+    public ProfissionalSeguranca(Long numeroCredencial, String cpf, String nome, LocalDate dataNascimento, Endereco endereco) {
+        super(cpf, nome, "Funcionario", dataNascimento, endereco);
         this.numeroCredencial = numeroCredencial;
     }
 

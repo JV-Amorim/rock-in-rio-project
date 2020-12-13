@@ -10,33 +10,42 @@ import java.awt.event.MouseEvent;
 
 public class GerenciamentoOcorrencias extends javax.swing.JFrame {
 
+    // TODO - Criar painel de login e obter o CPF a partir dele.
+    private final String cpfProfissionalLogado = "54079310530";
+    
     private DefaultListModel<Ocorrencia> ocorrenciasEditaveis;
     private DefaultListModel<Ocorrencia> ocorrenciasLeitura;
     private int indiceOcorrenciaEditavelSelecionada;
     private int indiceOcorrenciaLeituraSelecionada;
     
     public GerenciamentoOcorrencias() {
-        initData();
+        initDados();
         initComponents();
     }
     
-    private void initData() {
+    private void initDados() {
         ocorrenciasEditaveis = new DefaultListModel<>();
         ocorrenciasLeitura = new DefaultListModel<>();
         
         var ocorrencias = OcorrenciaDao.obterTodos();
         
         ocorrencias.forEach(ocorrencia -> {
-            if ("54079310530".equals(ocorrencia.getCpfProfissionalSeguranca())) {
+            if (cpfProfissionalLogado.equals(ocorrencia.getCpfProfissionalSeguranca())) {
                 ocorrenciasEditaveis.addElement(ocorrencia);
             }
             else {
                 ocorrenciasLeitura.addElement(ocorrencia);
             }
         });
+        
+        // TODO - Inserir o nome do profissional de usuário no campo "Usuário: __________".
     }
     
-    public void atualizarModelo(Ocorrencia ocorrencia) {
+    public void inserirOcorrenciaNaLista(Ocorrencia ocorrencia) {
+        ocorrenciasEditaveis.addElement(ocorrencia);
+    }
+    
+    public void atualizarOcorrenciaNaLista(Ocorrencia ocorrencia) {
         ocorrenciasEditaveis.set(indiceOcorrenciaEditavelSelecionada, ocorrencia);
     }
 
@@ -92,12 +101,16 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
 
         menuItemDetalhesL.setMnemonic('d');
         menuItemDetalhesL.setText("Detalhes");
+        menuItemDetalhesL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemDetalhesLActionPerformed(evt);
+            }
+        });
         popUpMenuLeitura.add(menuItemDetalhesL);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Rock In Rio - Gerenciamento de Ocorrências");
         setName("frm-gerenciamento-ocorrencias"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(610, 340));
         setResizable(false);
 
         retornarMenuPrincipal.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
@@ -144,6 +157,11 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
 
         buttonRegistrarNovaOcorrencia.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         buttonRegistrarNovaOcorrencia.setText("Registrar Nova Ocorrência");
+        buttonRegistrarNovaOcorrencia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                buttonRegistrarNovaOcorrenciaMouseReleased(evt);
+            }
+        });
         buttonRegistrarNovaOcorrencia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonRegistrarNovaOcorrenciaActionPerformed(evt);
@@ -160,20 +178,20 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
                 .addComponent(retornarMenuPrincipal)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(painelPrincipalLayout.createSequentialGroup()
-                .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(painelPrincipalLayout.createSequentialGroup()
-                        .addComponent(registradasPorVoce)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(buttonRegistrarNovaOcorrencia, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
-                    .addComponent(scrollPanelOcorrenciasEditaveis))
-                .addGap(18, 18, 18)
-                .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(porOutrosProfissionais)
-                    .addComponent(scrollPanelOcorrenciasLeitura, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addGroup(painelPrincipalLayout.createSequentialGroup()
                 .addComponent(tituloPrincipal)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(nomeUsuarioLogado, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(painelPrincipalLayout.createSequentialGroup()
+                .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(registradasPorVoce)
+                    .addComponent(buttonRegistrarNovaOcorrencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(scrollPanelOcorrenciasEditaveis, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelPrincipalLayout.createSequentialGroup()
+                        .addComponent(porOutrosProfissionais)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(scrollPanelOcorrenciasLeitura, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)))
         );
         painelPrincipalLayout.setVerticalGroup(
             painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -182,9 +200,9 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
                     .addComponent(buttonRetornarMenuPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(retornarMenuPrincipal))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nomeUsuarioLogado)
-                    .addComponent(tituloPrincipal))
+                .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tituloPrincipal)
+                    .addComponent(nomeUsuarioLogado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(registradasPorVoce)
@@ -192,7 +210,7 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(painelPrincipalLayout.createSequentialGroup()
-                        .addComponent(scrollPanelOcorrenciasEditaveis, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                        .addComponent(scrollPanelOcorrenciasEditaveis, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(buttonRegistrarNovaOcorrencia))
                     .addComponent(scrollPanelOcorrenciasLeitura)))
@@ -219,11 +237,11 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonRegistrarNovaOcorrenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegistrarNovaOcorrenciaActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_buttonRegistrarNovaOcorrenciaActionPerformed
 
     private void buttonRetornarMenuPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRetornarMenuPrincipalActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_buttonRetornarMenuPrincipalActionPerformed
 
     private void listaOcorrenciasEditaveisMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaOcorrenciasEditaveisMouseReleased
@@ -243,7 +261,30 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
     }//GEN-LAST:event_listaOcorrenciasLeituraMouseReleased
 
     private void menuItemDetalhesEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemDetalhesEActionPerformed
-        // TODO add your handling code here:
+        Ocorrencia ocorrenciaSelecionada = listaOcorrenciasEditaveis.getSelectedValue();
+        
+        if (ocorrenciaSelecionada == null) {
+            var mensagemErroDialog = new MensagemErroDialog(this, "Não foi possível realizar a ação.");
+            mensagemErroDialog.setLocationRelativeTo(this);
+            mensagemErroDialog.setVisible(true);
+        }
+        else {
+            String mensagem =
+                  "- Número: " + ocorrenciaSelecionada.getNumero() + "\n"
+                + "- Data: " + ocorrenciaSelecionada.getDataOcorrenciaEmString(true) + "\n"
+                + "- CPF do profissional de segurança: " 
+                + ocorrenciaSelecionada.getCpfProfissionalSeguranca() + "\n"
+                + "- CPF da pessoa: " + ocorrenciaSelecionada.getCpfPessoa() + "\n"
+                + "- Nome da pessoa: " + ocorrenciaSelecionada.getNomePessoa() + "\n"
+                + "- Descrição: " + ocorrenciaSelecionada.getDescricao() + "\n"
+                + "- Longitude: " + ocorrenciaSelecionada.getLongitude() + "\n"
+                + "- Latitude: " + ocorrenciaSelecionada.getLatitude();
+            
+            var mensagemDialog =
+                new MensagemGenericaDialog(this, "Detalhes da Ocorrência", "Detalhes da Ocorrência", mensagem);
+            mensagemDialog.setLocationRelativeTo(this);
+            mensagemDialog.setVisible(true);
+        }
     }//GEN-LAST:event_menuItemDetalhesEActionPerformed
 
     private void menuItemEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemEditarActionPerformed
@@ -252,6 +293,40 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
         edicaoOcorrenciaDialog.setLocationRelativeTo(this);
         edicaoOcorrenciaDialog.setVisible(true);
     }//GEN-LAST:event_menuItemEditarActionPerformed
+
+    private void menuItemDetalhesLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemDetalhesLActionPerformed
+        Ocorrencia ocorrenciaSelecionada = listaOcorrenciasLeitura.getSelectedValue();
+        
+        if (ocorrenciaSelecionada == null) {
+            var mensagemErroDialog = new MensagemErroDialog(this, "Não foi possível realizar a ação.");
+            mensagemErroDialog.setLocationRelativeTo(this);
+            mensagemErroDialog.setVisible(true);
+        }
+        else {
+            String mensagem =
+                  "- Número: " + ocorrenciaSelecionada.getNumero() + "\n"
+                + "- Data: " + ocorrenciaSelecionada.getDataOcorrenciaEmString(true) + "\n"
+                + "- CPF do profissional de segurança: " 
+                + ocorrenciaSelecionada.getCpfProfissionalSeguranca() + "\n"
+                + "- CPF da pessoa: " + ocorrenciaSelecionada.getCpfPessoa() + "\n"
+                + "- Nome da pessoa: " + ocorrenciaSelecionada.getNomePessoa() + "\n"
+                + "- Descrição: " + ocorrenciaSelecionada.getDescricao() + "\n"
+                + "- Longitude: " + ocorrenciaSelecionada.getLongitude() + "\n"
+                + "- Latitude: " + ocorrenciaSelecionada.getLatitude();
+            
+            var mensagemDialog =
+                new MensagemGenericaDialog(this, "Detalhes da Ocorrência", "Detalhes da Ocorrência", mensagem);
+            mensagemDialog.setLocationRelativeTo(this);
+            mensagemDialog.setVisible(true);
+        }
+    }//GEN-LAST:event_menuItemDetalhesLActionPerformed
+
+    private void buttonRegistrarNovaOcorrenciaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonRegistrarNovaOcorrenciaMouseReleased
+        var cadastroOcorrenciaDialog = 
+            new CadastroOcorrenciaDialog(this, cpfProfissionalLogado);
+        cadastroOcorrenciaDialog.setLocationRelativeTo(this);
+        cadastroOcorrenciaDialog.setVisible(true);
+    }//GEN-LAST:event_buttonRegistrarNovaOcorrenciaMouseReleased
 
     /**
      * @param args the command line arguments

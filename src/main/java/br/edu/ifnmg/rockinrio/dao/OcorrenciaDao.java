@@ -17,7 +17,36 @@ public final class OcorrenciaDao {
     //</editor-fold>
     
     public static Boolean inserir(Ocorrencia ocorrencia) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        var connection = DatabaseManager.getConnection();
+        
+        String sqlStatement = "INSERT INTO OCORRENCIA VALUES (?, ?, ?, ?, ?, ?, ?)";
+        
+        try (PreparedStatement pstmt = connection.prepareStatement(sqlStatement)) {
+            pstmt.setDate(1, LocalDateHelper.localDateToSqlDate(ocorrencia.getDataOcorrencia()));
+            pstmt.setInt(2, ocorrencia.getNumero());
+            pstmt.setDate(3, java.sql.Date.valueOf(ocorrencia.getDataOcorrencia()));
+            pstmt.setString(4, ocorrencia.getCpfProfissionalSeguranca());
+            pstmt.setString(5, ocorrencia.getDescricao());
+            pstmt.setDouble(6, ocorrencia.getLongitude());
+            pstmt.setDouble(7, ocorrencia.getLatitude());
+            pstmt.executeUpdate();
+        }
+	catch (Exception e) {
+            return false;
+        }
+        
+        String sqlStatement2 = "INSERT INTO OCORRENCIAPESSOA VALUES (?, ?)";
+        
+        try (PreparedStatement pstmt = connection.prepareStatement(sqlStatement2)) {
+            pstmt.setString(1, ocorrencia.getCpfPessoa());
+            pstmt.setInt(2, ocorrencia.getNumero());
+            pstmt.executeUpdate();
+        }
+	catch (Exception e) {
+            return false;
+        }
+        
+        return true;
     }
     
     public static Boolean atualizar(Ocorrencia ocorrencia) {
@@ -80,6 +109,10 @@ public final class OcorrenciaDao {
 
     public static Boolean excluir(Ocorrencia ocorrencia) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public static int obterProximoNumeroOcorrencia() {
+        return obterTodos().size() + 1;
     }
 
     private static ArrayList<Ocorrencia> gerarObjetos(ResultSet resultSet) {

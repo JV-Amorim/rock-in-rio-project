@@ -14,6 +14,7 @@ public class EdicaoOcorrenciaDialog extends javax.swing.JDialog {
     
     private final GerenciamentoOcorrencias gerenciamentoOcorrencias;
     private final Ocorrencia ocorrenciaEmEdicao;
+    private ArrayList<Pessoa> pessoas;
     
     public EdicaoOcorrenciaDialog(
         GerenciamentoOcorrencias gerenciamentoOcorrencias,
@@ -29,7 +30,7 @@ public class EdicaoOcorrenciaDialog extends javax.swing.JDialog {
     }
     
     private void initPessoasDropdown() {
-        ArrayList<Pessoa> pessoas = PessoaDao.obterTodos();
+        pessoas = PessoaDao.obterTodos();
         Integer indicePessoaOcorrenciaAtual = null;
         
         for (int i = 0; i < pessoas.size(); i++) {
@@ -57,7 +58,7 @@ public class EdicaoOcorrenciaDialog extends javax.swing.JDialog {
     }
     
     private void salvarAlteracoes() {
-        String[] dropdownSelectedItem =((String)pessoasDropdown.getSelectedItem()).split("\\|");
+        String[] dropdownSelectedItem = ((String)pessoasDropdown.getSelectedItem()).split("\\|");
         
         String cpfPessoa = dropdownSelectedItem[0].trim().replace("CPF: ", "");
         String nomePessoa = dropdownSelectedItem[1].trim().replace("Nome: ", "");
@@ -66,9 +67,12 @@ public class EdicaoOcorrenciaDialog extends javax.swing.JDialog {
         Double latitude = getLatitudeTextFieldConteudo();
         Double longitude = getLongitudeTextFieldConteudo();
         
-        if (dataOcorrencia == null || latitude == null || longitude == null) {
+        if (descricao.length() > 50 || dataOcorrencia == null || latitude == null || longitude == null) {
             String errosText = "";
             
+            if (descricao.length() > 50) {
+                errosText += "- A descrição pode ter 50 caracteres no máximo!\n";
+            }
             if (dataOcorrencia == null) {
                 errosText += "- O conteúdo inserido no campo Data é inválido!\n";
             }
@@ -94,7 +98,7 @@ public class EdicaoOcorrenciaDialog extends javax.swing.JDialog {
         ocorrenciaEmEdicao.setLongitude(longitude);
         
         OcorrenciaDao.atualizar(ocorrenciaEmEdicao);
-        gerenciamentoOcorrencias.atualizarModelo(ocorrenciaEmEdicao);
+        gerenciamentoOcorrencias.atualizarOcorrenciaNaLista(ocorrenciaEmEdicao);
         dispose();
     }
     
@@ -156,6 +160,7 @@ public class EdicaoOcorrenciaDialog extends javax.swing.JDialog {
         pessoasDropdown = new javax.swing.JComboBox<>();
         detalhesPessoaButton = new javax.swing.JButton();
         adicionarPessoaButton = new javax.swing.JButton();
+        editarPessoaButton = new javax.swing.JButton();
         descricaoLabel = new javax.swing.JLabel();
         descricaoScrollRect = new javax.swing.JScrollPane();
         descricaoTextField = new javax.swing.JTextArea();
@@ -168,12 +173,14 @@ public class EdicaoOcorrenciaDialog extends javax.swing.JDialog {
         dataTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Rock In Rio - Edição de Ocorrência");
 
         retornarMenuPrincipal.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         retornarMenuPrincipal.setText("Retornar à lista de ocorrências");
 
         buttonRetornarMenuPrincipal.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         buttonRetornarMenuPrincipal.setText("<");
+        buttonRetornarMenuPrincipal.setToolTipText("Essa ação descartará qualquer alteração realizada na ocorrência.");
         buttonRetornarMenuPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 buttonRetornarMenuPrincipalMouseReleased(evt);
@@ -200,6 +207,11 @@ public class EdicaoOcorrenciaDialog extends javax.swing.JDialog {
 
         detalhesPessoaButton.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         detalhesPessoaButton.setText("Detalhes");
+        detalhesPessoaButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                detalhesPessoaButtonMouseReleased(evt);
+            }
+        });
         detalhesPessoaButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 detalhesPessoaButtonActionPerformed(evt);
@@ -214,6 +226,14 @@ public class EdicaoOcorrenciaDialog extends javax.swing.JDialog {
             }
         });
 
+        editarPessoaButton.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        editarPessoaButton.setText("Editar");
+        editarPessoaButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editarPessoaButtonActionPerformed(evt);
+            }
+        });
+
         descricaoLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         descricaoLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         descricaoLabel.setText("Descrição");
@@ -222,6 +242,7 @@ public class EdicaoOcorrenciaDialog extends javax.swing.JDialog {
         descricaoTextField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         descricaoTextField.setLineWrap(true);
         descricaoTextField.setRows(5);
+        descricaoTextField.setToolTipText("A descrição pode ter no máximo 50 caracteres.");
         descricaoScrollRect.setViewportView(descricaoTextField);
 
         dataLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -233,14 +254,14 @@ public class EdicaoOcorrenciaDialog extends javax.swing.JDialog {
         latitudeLabel.setText("Latitude");
 
         latitudeTextField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        latitudeTextField.setToolTipText("");
+        latitudeTextField.setToolTipText("Exemplo de formato: 12.5046");
 
         longitudeLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         longitudeLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         longitudeLabel.setText("Longitude");
 
         longitudeTextField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        longitudeTextField.setToolTipText("");
+        longitudeTextField.setToolTipText("Exemplo de formato: 12.5046");
 
         salvarButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         salvarButton.setText("Salvar");
@@ -256,6 +277,7 @@ public class EdicaoOcorrenciaDialog extends javax.swing.JDialog {
         });
 
         dataTextField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        dataTextField.setToolTipText("Formato: DD/MM/AAAA");
 
         javax.swing.GroupLayout painelPrincipalLayout = new javax.swing.GroupLayout(painelPrincipal);
         painelPrincipal.setLayout(painelPrincipalLayout);
@@ -271,15 +293,17 @@ public class EdicaoOcorrenciaDialog extends javax.swing.JDialog {
                 .addComponent(descricaoScrollRect))
             .addComponent(salvarButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(painelPrincipalLayout.createSequentialGroup()
-                .addComponent(pessoaLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pessoasDropdown, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(detalhesPessoaButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(adicionarPessoaButton))
-            .addGroup(painelPrincipalLayout.createSequentialGroup()
                 .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelPrincipalLayout.createSequentialGroup()
+                        .addComponent(pessoaLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pessoasDropdown, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(detalhesPessoaButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(adicionarPessoaButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(editarPessoaButton))
                     .addGroup(painelPrincipalLayout.createSequentialGroup()
                         .addComponent(dataLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -313,19 +337,21 @@ public class EdicaoOcorrenciaDialog extends javax.swing.JDialog {
                     .addComponent(pessoasDropdown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pessoaLabel)
                     .addComponent(detalhesPessoaButton)
-                    .addComponent(adicionarPessoaButton))
+                    .addComponent(adicionarPessoaButton)
+                    .addComponent(editarPessoaButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(descricaoScrollRect, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(descricaoLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(dataLabel)
-                    .addComponent(longitudeLabel)
-                    .addComponent(longitudeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(latitudeLabel)
-                    .addComponent(latitudeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dataTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dataTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(dataLabel)
+                        .addComponent(longitudeLabel)
+                        .addComponent(longitudeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(latitudeLabel)
+                        .addComponent(latitudeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(salvarButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -351,11 +377,11 @@ public class EdicaoOcorrenciaDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonRetornarMenuPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRetornarMenuPrincipalActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_buttonRetornarMenuPrincipalActionPerformed
 
     private void salvarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarButtonActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_salvarButtonActionPerformed
 
     private void buttonRetornarMenuPrincipalMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonRetornarMenuPrincipalMouseReleased
@@ -366,13 +392,48 @@ public class EdicaoOcorrenciaDialog extends javax.swing.JDialog {
         salvarAlteracoes();
     }//GEN-LAST:event_salvarButtonMouseReleased
 
+    private void adicionarPessoaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarPessoaButtonActionPerformed
+
+    }//GEN-LAST:event_adicionarPessoaButtonActionPerformed
+
     private void detalhesPessoaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detalhesPessoaButtonActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_detalhesPessoaButtonActionPerformed
 
-    private void adicionarPessoaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarPessoaButtonActionPerformed
+    private void detalhesPessoaButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_detalhesPessoaButtonMouseReleased
+        String cpfPessoa =
+        ((String)pessoasDropdown.getSelectedItem())
+        .split("\\|")[0].trim().replace("CPF: ", "");
+
+        Pessoa pessoaSelecionada = PessoaDao.obter(cpfPessoa);
+
+        if (pessoaSelecionada == null) {
+            var mensagemErroDialog = new MensagemErroDialog(this, "Não foi possível realizar a ação.");
+            mensagemErroDialog.setLocationRelativeTo(this);
+            mensagemErroDialog.setVisible(true);
+        }
+        else {
+            String mensagem =
+            "- CPF: " + pessoaSelecionada.getCpf() + "\n"
+            + "- Nome: " + pessoaSelecionada.getNome() + "\n"
+            + "- Tipo da pessoa no evento: " + pessoaSelecionada.getTipoPessoa() + "\n"
+            + "- Data de nascimento: " + pessoaSelecionada.getDataNascimentoEmString(true) + "\n\n"
+            + "Endereço:\n"
+            + "- CEP: " + pessoaSelecionada.getEndereco().getCep() + "\n"
+            + "- Bairro: " + pessoaSelecionada.getEndereco().getBairro() + "\n"
+            + "- Rua: " + pessoaSelecionada.getEndereco().getRua() + "\n"
+            + "- Número: " + pessoaSelecionada.getEndereco().getNumero();
+
+            var mensagemDialog =
+            new MensagemGenericaDialog(this, "Detalhes da Pessoa", "Detalhes da Pessoa", mensagem);
+            mensagemDialog.setLocationRelativeTo(this);
+            mensagemDialog.setVisible(true);
+        }
+    }//GEN-LAST:event_detalhesPessoaButtonMouseReleased
+
+    private void editarPessoaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarPessoaButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_adicionarPessoaButtonActionPerformed
+    }//GEN-LAST:event_editarPessoaButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton adicionarPessoaButton;
@@ -383,6 +444,7 @@ public class EdicaoOcorrenciaDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane descricaoScrollRect;
     private javax.swing.JTextArea descricaoTextField;
     private javax.swing.JButton detalhesPessoaButton;
+    private javax.swing.JButton editarPessoaButton;
     private javax.swing.JLabel latitudeLabel;
     private javax.swing.JTextField latitudeTextField;
     private javax.swing.JLabel longitudeLabel;

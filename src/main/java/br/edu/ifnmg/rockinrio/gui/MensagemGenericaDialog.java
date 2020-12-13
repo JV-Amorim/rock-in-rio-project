@@ -3,20 +3,26 @@
  */
 package br.edu.ifnmg.rockinrio.gui;
 
-public class MensagemErroDialog extends javax.swing.JDialog {
-    
-    public MensagemErroDialog(java.awt.Frame parent, String erros) {
+public class MensagemGenericaDialog extends javax.swing.JDialog {
+
+    public MensagemGenericaDialog(java.awt.Frame parent, String windowTitulo, String mensagemTitulo, String mensagem) {
         super(parent, true);
         initComponents();
-        errosTextArea.setText(erros);
-        errosTextArea.setEditable(false);
+        
+        super.setTitle(windowTitulo);
+        mensagemTituloLabel.setText(mensagemTitulo);
+        mensagemTextArea.setText(mensagem);
+        mensagemTextArea.setEditable(false);
     }
-    
-    public MensagemErroDialog(java.awt.Dialog parent, String erros) {
+
+    public MensagemGenericaDialog(java.awt.Dialog parent, String windowTitulo, String mensagemTitulo, String mensagem) {
         super(parent, true);
         initComponents();
-        errosTextArea.setText(erros);
-        errosTextArea.setEditable(false);
+        
+        super.setTitle(windowTitulo);
+        mensagemTituloLabel.setText(mensagemTitulo);
+        mensagemTextArea.setText(mensagem);
+        mensagemTextArea.setEditable(false);
     }
 
     /**
@@ -28,48 +34,40 @@ public class MensagemErroDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         painelPrincipal = new javax.swing.JPanel();
-        titulo = new javax.swing.JLabel();
-        errosScrollPanel = new javax.swing.JScrollPane();
-        errosTextArea = new javax.swing.JTextArea();
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        mensagemTituloLabel = new javax.swing.JLabel();
+        mensagemScrollPanel = new javax.swing.JScrollPane();
+        mensagemTextArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Erros");
+        setTitle("Lorem Ipsum");
         setResizable(false);
 
-        titulo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        titulo.setText("Erros:");
+        mensagemTituloLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        mensagemTituloLabel.setText("Lorem Ipsum");
 
-        errosScrollPanel.setFocusable(false);
-        errosScrollPanel.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-
-        errosTextArea.setEditable(false);
-        errosTextArea.setColumns(20);
-        errosTextArea.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        errosTextArea.setRows(5);
-        errosScrollPanel.setViewportView(errosTextArea);
+        mensagemTextArea.setEditable(false);
+        mensagemTextArea.setColumns(20);
+        mensagemTextArea.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        mensagemTextArea.setLineWrap(true);
+        mensagemTextArea.setRows(5);
+        mensagemScrollPanel.setViewportView(mensagemTextArea);
 
         javax.swing.GroupLayout painelPrincipalLayout = new javax.swing.GroupLayout(painelPrincipal);
         painelPrincipal.setLayout(painelPrincipalLayout);
         painelPrincipalLayout.setHorizontalGroup(
             painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelPrincipalLayout.createSequentialGroup()
-                .addComponent(titulo)
+                .addComponent(mensagemTituloLabel)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(errosScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
+            .addComponent(mensagemScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
         );
         painelPrincipalLayout.setVerticalGroup(
             painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelPrincipalLayout.createSequentialGroup()
-                .addComponent(titulo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(errosScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE))
+                .addComponent(mensagemTituloLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(mensagemScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -93,11 +91,9 @@ public class MensagemErroDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane errosScrollPanel;
-    private javax.swing.JTextArea errosTextArea;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JScrollPane mensagemScrollPanel;
+    private javax.swing.JTextArea mensagemTextArea;
+    private javax.swing.JLabel mensagemTituloLabel;
     private javax.swing.JPanel painelPrincipal;
-    private javax.swing.JLabel titulo;
     // End of variables declaration//GEN-END:variables
 }

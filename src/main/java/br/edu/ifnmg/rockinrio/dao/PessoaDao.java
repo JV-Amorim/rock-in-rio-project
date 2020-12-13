@@ -3,7 +3,9 @@
  */
 package br.edu.ifnmg.rockinrio.dao;
 
+import br.edu.ifnmg.rockinrio.entity.Endereco;
 import br.edu.ifnmg.rockinrio.entity.Pessoa;
+import br.edu.ifnmg.rockinrio.helper.LocalDateHelper;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,6 +19,24 @@ public final class PessoaDao {
     
     public static Boolean inserir(Pessoa pessoa) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public static Pessoa obter(String cpfPessoa) {
+        Pessoa pessoa = null;
+        
+        String sqlStatement = "SELECT * FROM PESSOA WHERE CPF=?";
+        
+        try (PreparedStatement pstmt =  DatabaseManager.getConnection().prepareStatement(sqlStatement)) {
+            pstmt.setString(1, cpfPessoa);
+            ResultSet resultSet = pstmt.executeQuery();
+            pessoa = gerarObjeto(resultSet);
+        }
+	catch (Exception e) {
+            // TODO - Exibir mensagem de erro.
+            e.printStackTrace();
+        }
+        
+        return pessoa;
     }
 
     public static ArrayList<Pessoa> obterTodos() {
@@ -34,6 +54,33 @@ public final class PessoaDao {
         }
         
         return pessoas;
+    }
+    
+    private static Pessoa gerarObjeto(ResultSet resultSet) {
+        Pessoa pessoa = null;
+
+        try {
+            resultSet.next();
+            
+            pessoa = new Pessoa(
+                resultSet.getString("CPF"),
+                resultSet.getString("NOME"),
+                resultSet.getString("TIPOPESSOA"),
+                LocalDateHelper.sqlDateToLocalDate(resultSet.getDate("DATANASCIMENTO")),
+                new Endereco(
+                    resultSet.getString("CEP"),
+                    resultSet.getString("BAIRRO"),
+                    resultSet.getString("RUA"),
+                    resultSet.getInt("NUMERO")
+                )
+            );
+        }
+        catch (SQLException e) {
+            // TODO - Exibir mensagem de erro.
+            e.printStackTrace();
+        }
+
+        return pessoa;
     }
 
     private static ArrayList<Pessoa> gerarObjetos(ResultSet resultSet) {
