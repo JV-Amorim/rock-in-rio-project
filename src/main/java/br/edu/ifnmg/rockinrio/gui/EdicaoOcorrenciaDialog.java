@@ -174,6 +174,7 @@ public class EdicaoOcorrenciaDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Rock In Rio - Edição de Ocorrência");
+        setModal(true);
 
         retornarMenuPrincipal.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         retornarMenuPrincipal.setText("Retornar à lista de ocorrências");

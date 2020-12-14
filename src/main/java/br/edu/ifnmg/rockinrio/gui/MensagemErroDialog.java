@@ -41,6 +41,7 @@ public class MensagemErroDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Erros");
+        setModal(true);
         setResizable(false);
 
         titulo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N

@@ -41,6 +41,7 @@ public class MensagemGenericaDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Lorem Ipsum");
+        setModal(true);
         setResizable(false);
 
         mensagemTituloLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N

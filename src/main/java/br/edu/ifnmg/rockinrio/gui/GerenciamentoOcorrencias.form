@@ -31,6 +31,9 @@
             <Property name="mnemonic" type="int" value="120"/>
             <Property name="text" type="java.lang.String" value="Excluir"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemExcluirActionPerformed"/>
+          </Events>
         </MenuItem>
       </SubComponents>
     </Container>

@@ -48,6 +48,10 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
     public void atualizarOcorrenciaNaLista(Ocorrencia ocorrencia) {
         ocorrenciasEditaveis.set(indiceOcorrenciaEditavelSelecionada, ocorrencia);
     }
+    
+    public void removerOcorrenciaDaLista() {
+        ocorrenciasEditaveis.remove(indiceOcorrenciaEditavelSelecionada);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -97,6 +101,11 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
 
         menuItemExcluir.setMnemonic('x');
         menuItemExcluir.setText("Excluir");
+        menuItemExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemExcluirActionPerformed(evt);
+            }
+        });
         popUpMenuEditaveis.add(menuItemExcluir);
 
         menuItemDetalhesL.setMnemonic('d');
@@ -327,6 +336,13 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
         cadastroOcorrenciaDialog.setLocationRelativeTo(this);
         cadastroOcorrenciaDialog.setVisible(true);
     }//GEN-LAST:event_buttonRegistrarNovaOcorrenciaMouseReleased
+
+    private void menuItemExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemExcluirActionPerformed
+        var excluirOcorrenciaDialog = 
+            new ExcluirOcorrenciaDialog(this, listaOcorrenciasEditaveis.getSelectedValue());
+        excluirOcorrenciaDialog.setLocationRelativeTo(this);
+        excluirOcorrenciaDialog.setVisible(true);
+    }//GEN-LAST:event_menuItemExcluirActionPerformed
 
     /**
      * @param args the command line arguments

@@ -160,7 +160,7 @@ public class CadastroOcorrenciaDialog extends javax.swing.JDialog {
         editarPessoaButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Rock In Rio - Gerenciamento de Ocorrências");
+        setTitle("Rock In Rio - Cadastro de Ocorrência");
         setModal(true);
         setResizable(false);
 

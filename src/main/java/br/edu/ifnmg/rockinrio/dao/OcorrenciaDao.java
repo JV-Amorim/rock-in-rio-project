@@ -108,7 +108,29 @@ public final class OcorrenciaDao {
     }
 
     public static Boolean excluir(Ocorrencia ocorrencia) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        var connection = DatabaseManager.getConnection();
+        
+        String sqlStatement = "DELETE FROM OCORRENCIAPESSOA WHERE NUMEROOCORRENCIA=?";
+        
+        try (PreparedStatement pstmt = connection.prepareStatement(sqlStatement)) {
+            pstmt.setInt(1, ocorrencia.getNumero());
+            pstmt.executeUpdate();
+        }
+	catch (Exception e) {
+            return false;
+        }
+        
+        String sqlStatement2 = "DELETE FROM OCORRENCIA WHERE NUMERO=?";
+        
+        try (PreparedStatement pstmt = connection.prepareStatement(sqlStatement2)) {
+            pstmt.setInt(1, ocorrencia.getNumero());
+            pstmt.executeUpdate();
+        }
+	catch (Exception e) {
+            return false;
+        }
+        
+        return true;
     }
     
     public static int obterProximoNumeroOcorrencia() {
