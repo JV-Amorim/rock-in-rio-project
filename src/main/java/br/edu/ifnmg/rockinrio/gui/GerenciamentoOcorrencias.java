@@ -140,7 +140,7 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
         nomeUsuarioLogado.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         nomeUsuarioLogado.setText("Usuário: _______________________");
 
-        registradasPorVoce.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        registradasPorVoce.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         registradasPorVoce.setText("Registradas por você:");
 
         listaOcorrenciasEditaveis.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
@@ -152,7 +152,7 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
         });
         scrollPanelOcorrenciasEditaveis.setViewportView(listaOcorrenciasEditaveis);
 
-        porOutrosProfissionais.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        porOutrosProfissionais.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         porOutrosProfissionais.setText("Por outros profissionais:");
 
         listaOcorrenciasLeitura.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
@@ -164,7 +164,7 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
         });
         scrollPanelOcorrenciasLeitura.setViewportView(listaOcorrenciasLeitura);
 
-        buttonRegistrarNovaOcorrencia.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        buttonRegistrarNovaOcorrencia.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         buttonRegistrarNovaOcorrencia.setText("Registrar Nova Ocorrência");
         buttonRegistrarNovaOcorrencia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {

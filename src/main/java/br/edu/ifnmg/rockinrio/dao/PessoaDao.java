@@ -18,7 +18,24 @@ public final class PessoaDao {
     //</editor-fold>
     
     public static Boolean inserir(Pessoa pessoa) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sqlStatement = "INSERT INTO PESSOA VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        try (PreparedStatement pstmt = DatabaseManager.getConnection().prepareStatement(sqlStatement)) {
+            pstmt.setString(1, pessoa.getCpf());
+            pstmt.setString(2, pessoa.getTipoPessoa());
+            pstmt.setDate(3, LocalDateHelper.localDateToSqlDate(pessoa.getDataNascimento()));
+            pstmt.setString(4, pessoa.getNome());
+            pstmt.setString(5, pessoa.getEndereco().getCep());
+            pstmt.setString(6, pessoa.getEndereco().getBairro());
+            pstmt.setInt(7, pessoa.getEndereco().getNumero());
+            pstmt.setString(8, pessoa.getEndereco().getRua());
+            pstmt.executeUpdate();
+        }
+	catch (Exception e) {
+            return false;
+        }
+        
+        return true;
     }
 
     public static Pessoa obter(String cpfPessoa) {
@@ -26,7 +43,7 @@ public final class PessoaDao {
         
         String sqlStatement = "SELECT * FROM PESSOA WHERE CPF=?";
         
-        try (PreparedStatement pstmt =  DatabaseManager.getConnection().prepareStatement(sqlStatement)) {
+        try (PreparedStatement pstmt = DatabaseManager.getConnection().prepareStatement(sqlStatement)) {
             pstmt.setString(1, cpfPessoa);
             ResultSet resultSet = pstmt.executeQuery();
             pessoa = gerarObjeto(resultSet);
@@ -44,7 +61,7 @@ public final class PessoaDao {
         
         String sqlStatement = "SELECT CPF, NOME FROM PESSOA";
         
-        try (PreparedStatement pstmt =  DatabaseManager.getConnection().prepareStatement(sqlStatement)) {
+        try (PreparedStatement pstmt = DatabaseManager.getConnection().prepareStatement(sqlStatement)) {
             ResultSet resultSet = pstmt.executeQuery();
             pessoas = gerarObjetos(resultSet);
         }

@@ -6,10 +6,6 @@ package br.edu.ifnmg.rockinrio.gui;
 import br.edu.ifnmg.rockinrio.dao.OcorrenciaDao;
 import br.edu.ifnmg.rockinrio.entity.Ocorrencia;
 
-/**
- *
- * @author JVAmorim
- */
 public class ExcluirOcorrenciaDialog extends javax.swing.JDialog {
     
     private final GerenciamentoOcorrencias gerenciamentoOcorrencias;

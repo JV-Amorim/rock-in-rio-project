@@ -221,6 +221,11 @@ public class EdicaoOcorrenciaDialog extends javax.swing.JDialog {
 
         adicionarPessoaButton.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         adicionarPessoaButton.setText("Adicionar");
+        adicionarPessoaButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                adicionarPessoaButtonMouseReleased(evt);
+            }
+        });
         adicionarPessoaButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 adicionarPessoaButtonActionPerformed(evt);
@@ -229,6 +234,11 @@ public class EdicaoOcorrenciaDialog extends javax.swing.JDialog {
 
         editarPessoaButton.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         editarPessoaButton.setText("Editar");
+        editarPessoaButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                editarPessoaButtonMouseReleased(evt);
+            }
+        });
         editarPessoaButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editarPessoaButtonActionPerformed(evt);
@@ -435,6 +445,20 @@ public class EdicaoOcorrenciaDialog extends javax.swing.JDialog {
     private void editarPessoaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarPessoaButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_editarPessoaButtonActionPerformed
+
+    private void adicionarPessoaButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_adicionarPessoaButtonMouseReleased
+       var cadastrarPessoaDialog =
+            new CadastroPessoaDialog(this, pessoasDropdown);
+        cadastrarPessoaDialog.setLocationRelativeTo(this);
+        cadastrarPessoaDialog.setVisible(true);
+    }//GEN-LAST:event_adicionarPessoaButtonMouseReleased
+
+    private void editarPessoaButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editarPessoaButtonMouseReleased
+        var edicaoPessoaDialog =
+            new EdicaoPessoaDialog(this, pessoasDropdown);
+        edicaoPessoaDialog.setLocationRelativeTo(this);
+        edicaoPessoaDialog.setVisible(true);
+    }//GEN-LAST:event_editarPessoaButtonMouseReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton adicionarPessoaButton;

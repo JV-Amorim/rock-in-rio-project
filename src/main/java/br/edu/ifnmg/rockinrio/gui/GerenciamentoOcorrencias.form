@@ -201,7 +201,7 @@
         <Component class="javax.swing.JLabel" name="registradasPorVoce">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Dialog" size="12" style="1"/>
+              <Font name="Segoe UI" size="12" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Registradas por voc&#xea;:"/>
           </Properties>
@@ -234,7 +234,7 @@
         <Component class="javax.swing.JLabel" name="porOutrosProfissionais">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Dialog" size="12" style="1"/>
+              <Font name="Segoe UI" size="12" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Por outros profissionais:"/>
           </Properties>
@@ -267,7 +267,7 @@
         <Component class="javax.swing.JButton" name="buttonRegistrarNovaOcorrencia">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Dialog" size="12" style="1"/>
+              <Font name="Segoe UI" size="12" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Registrar Nova Ocorr&#xea;ncia"/>
           </Properties>
