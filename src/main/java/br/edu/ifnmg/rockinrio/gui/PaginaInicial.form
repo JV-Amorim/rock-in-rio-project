@@ -101,6 +101,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Acessar Sistema de Gerenciamento de Ingressos"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="ingressoOcorrenciaButtonMouseReleased"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

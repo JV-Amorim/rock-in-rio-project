@@ -10,16 +10,14 @@ import java.awt.event.MouseEvent;
 import javax.swing.DefaultListModel;
 
 
-public class GerenciamentoIngressosDao extends javax.swing.JFrame {
+public class GerenciamentoIngressosDialog extends javax.swing.JDialog {
 
     private DefaultListModel<Ingresso> lstIngressosModel;
 
     private int indiceIngressoSelecionado;
 
-    /**
-     * Creates new form GerenciamentoIngressosDao
-     */
-    public GerenciamentoIngressosDao() {
+    public GerenciamentoIngressosDialog(PaginaInicial paginaInicial) {
+        super(paginaInicial, true);
         initDados();
         initComponents();
     }
@@ -32,7 +30,6 @@ public class GerenciamentoIngressosDao extends javax.swing.JFrame {
         lstIngressosModel.addAll(ingressos);
         
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -52,6 +49,8 @@ public class GerenciamentoIngressosDao extends javax.swing.JFrame {
         scrLstIngressos = new javax.swing.JScrollPane();
         lstIngressos = new javax.swing.JList<>();
         btnCadastrar = new javax.swing.JButton();
+        retornarMenuPrincipal = new javax.swing.JLabel();
+        buttonRetornarMenuPrincipal = new javax.swing.JButton();
 
         mnuDetalhes.setMnemonic('d');
         mnuDetalhes.setText("Detalhes");
@@ -70,7 +69,10 @@ public class GerenciamentoIngressosDao extends javax.swing.JFrame {
         mnuExcluir.setText("Excluir");
         pppMenu.add(mnuExcluir);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Rock In Rio - Gerenciamento de Ingressos");
+        setModal(true);
+        setResizable(false);
 
         lblIngressos.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblIngressos.setText("Ingressos");
@@ -85,29 +87,53 @@ public class GerenciamentoIngressosDao extends javax.swing.JFrame {
 
         btnCadastrar.setText("Cadastrar");
 
+        retornarMenuPrincipal.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+        retornarMenuPrincipal.setText("Retornar ao menu principal");
+
+        buttonRetornarMenuPrincipal.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        buttonRetornarMenuPrincipal.setText("<");
+        buttonRetornarMenuPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                buttonRetornarMenuPrincipalMouseReleased(evt);
+            }
+        });
+        buttonRetornarMenuPrincipal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRetornarMenuPrincipalActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlIngressosLayout = new javax.swing.GroupLayout(pnlIngressos);
         pnlIngressos.setLayout(pnlIngressosLayout);
         pnlIngressosLayout.setHorizontalGroup(
             pnlIngressosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(scrLstIngressos, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
             .addGroup(pnlIngressosLayout.createSequentialGroup()
+                .addComponent(buttonRetornarMenuPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(retornarMenuPrincipal)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(pnlIngressosLayout.createSequentialGroup()
                 .addGroup(pnlIngressosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlIngressosLayout.createSequentialGroup()
                         .addGap(158, 158, 158)
                         .addComponent(lblIngressos))
                     .addGroup(pnlIngressosLayout.createSequentialGroup()
-                        .addGap(141, 141, 141)
+                        .addGap(142, 142, 142)
                         .addComponent(btnCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlIngressosLayout.setVerticalGroup(
             pnlIngressosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlIngressosLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGroup(pnlIngressosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonRetornarMenuPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(retornarMenuPrincipal))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblIngressos)
                 .addGap(18, 18, 18)
                 .addComponent(scrLstIngressos, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addComponent(btnCadastrar))
         );
 
@@ -132,7 +158,7 @@ public class GerenciamentoIngressosDao extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mnuDetalhesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDetalhesActionPerformed
-                Ingresso ingressoSelecionado = lstIngressos.getSelectedValue();
+        Ingresso ingressoSelecionado = lstIngressos.getSelectedValue();
         
         if (ingressoSelecionado == null) {
             var mensagemErroDialog = new MensagemErroDialog(this, "Não foi possível realizar a ação.");
@@ -142,24 +168,12 @@ public class GerenciamentoIngressosDao extends javax.swing.JFrame {
         else {
             
             String mensagem =
-                    "- Número: " + ingressoSelecionado.getNumero() +
-                    "\n- Valor do ingresso : " + ingressoSelecionado.getValor() +
-                    "\n- Data da line-up: " + ingressoSelecionado.getPertenceDataLineup() +
-                    "\n- Hora de entrada do ingresso: " + ingressoSelecionado.getHoraEntrada() +
-                    "\n- Nome do espectador: " + ingressoSelecionado.getNomeEspectador() +
-                    "\n- CPF do espectador: " + ingressoSelecionado.getCpfEspectador()
-                    ;
-            
-            /*String mensagem =
-                  "- Número: " + ocorrenciaSelecionada.getNumero() + "\n"
-                + "- Data: " + ocorrenciaSelecionada.getDataOcorrenciaEmString(true) + "\n"
-                + "- CPF do profissional de segurança: " 
-                + ocorrenciaSelecionada.getCpfProfissionalSeguranca() + "\n"
-                + "- CPF da pessoa: " + ocorrenciaSelecionada.getCpfPessoa() + "\n"
-                + "- Nome da pessoa: " + ocorrenciaSelecionada.getNomePessoa() + "\n"
-                + "- Descrição: " + ocorrenciaSelecionada.getDescricao() + "\n"
-                + "- Longitude: " + ocorrenciaSelecionada.getLongitude() + "\n"
-                + "- Latitude: " + ocorrenciaSelecionada.getLatitude();*/
+                "- Número: " + ingressoSelecionado.getNumero() +
+                "\n- Valor do ingresso : " + ingressoSelecionado.getValor() +
+                "\n- Data da line-up: " + ingressoSelecionado.getPertenceDataLineup() +
+                "\n- Hora de entrada do ingresso: " + ingressoSelecionado.getHoraEntrada() +
+                "\n- Nome do espectador: " + ingressoSelecionado.getNomeEspectador() +
+                "\n- CPF do espectador: " + ingressoSelecionado.getCpfEspectador();
             
             var mensagemDialog =
                 new MensagemGenericaDialog(this, "Detalhes da Ocorrência", "Detalhes da Ocorrência", mensagem);
@@ -174,46 +188,20 @@ public class GerenciamentoIngressosDao extends javax.swing.JFrame {
             lstIngressos.setSelectedIndex(indiceIngressoSelecionado);
             pppMenu.show(lstIngressos, evt.getX(), evt.getY());
         }
-
     }//GEN-LAST:event_lstIngressosMouseReleased
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GerenciamentoIngressosDao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GerenciamentoIngressosDao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GerenciamentoIngressosDao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GerenciamentoIngressosDao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void buttonRetornarMenuPrincipalMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonRetornarMenuPrincipalMouseReleased
+        dispose();
+    }//GEN-LAST:event_buttonRetornarMenuPrincipalMouseReleased
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GerenciamentoIngressosDao().setVisible(true);
-            }
-        });
-    }
+    private void buttonRetornarMenuPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRetornarMenuPrincipalActionPerformed
+
+    }//GEN-LAST:event_buttonRetornarMenuPrincipalActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;
+    private javax.swing.JButton buttonRetornarMenuPrincipal;
     private javax.swing.JLabel lblIngressos;
     private javax.swing.JList<Ingresso> lstIngressos;
     private javax.swing.JMenuItem mnuDetalhes;
@@ -221,6 +209,7 @@ public class GerenciamentoIngressosDao extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuExcluir;
     private javax.swing.JPanel pnlIngressos;
     private javax.swing.JPopupMenu pppMenu;
+    private javax.swing.JLabel retornarMenuPrincipal;
     private javax.swing.JScrollPane scrLstIngressos;
     // End of variables declaration//GEN-END:variables
 }
