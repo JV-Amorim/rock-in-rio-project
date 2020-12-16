@@ -12,12 +12,12 @@ import java.util.ArrayList;
 
 public class CadastroOcorrenciaDialog extends javax.swing.JDialog {
     
-    private final GerenciamentoOcorrencias gerenciamentoOcorrencias;
+    private final GerenciamentoOcorrenciasDialog gerenciamentoOcorrencias;
     private final String cpfProfissionalSeguranca;
     private ArrayList<Pessoa> pessoas;
     
     public CadastroOcorrenciaDialog(
-        GerenciamentoOcorrencias gerenciamentoOcorrencias,
+        GerenciamentoOcorrenciasDialog gerenciamentoOcorrencias,
         String cpfProfissionalSeguranca
     ) {
         super(gerenciamentoOcorrencias, true);
@@ -162,7 +162,6 @@ public class CadastroOcorrenciaDialog extends javax.swing.JDialog {
         retornarMenuPrincipal = new javax.swing.JLabel();
         buttonRetornarMenuPrincipal = new javax.swing.JButton();
         tituloPrincipal = new javax.swing.JLabel();
-        nomeUsuarioLogado = new javax.swing.JLabel();
         pessoaLabel = new javax.swing.JLabel();
         pessoasDropdown = new javax.swing.JComboBox<>();
         detalhesPessoaButton = new javax.swing.JButton();
@@ -203,10 +202,6 @@ public class CadastroOcorrenciaDialog extends javax.swing.JDialog {
 
         tituloPrincipal.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         tituloPrincipal.setText("Cadastro de nova ocorrência");
-
-        nomeUsuarioLogado.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        nomeUsuarioLogado.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        nomeUsuarioLogado.setText("Usuário: _______________________");
 
         pessoaLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         pessoaLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -304,8 +299,7 @@ public class CadastroOcorrenciaDialog extends javax.swing.JDialog {
             painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelPrincipalLayout.createSequentialGroup()
                 .addComponent(tituloPrincipal)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(nomeUsuarioLogado, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(painelPrincipalLayout.createSequentialGroup()
                 .addComponent(descricaoLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -348,9 +342,7 @@ public class CadastroOcorrenciaDialog extends javax.swing.JDialog {
                     .addComponent(buttonRetornarMenuPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(retornarMenuPrincipal))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nomeUsuarioLogado)
-                    .addComponent(tituloPrincipal))
+                .addComponent(tituloPrincipal)
                 .addGap(18, 18, 18)
                 .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(pessoasDropdown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -496,7 +488,6 @@ public class CadastroOcorrenciaDialog extends javax.swing.JDialog {
     private javax.swing.JTextField latitudeTextField;
     private javax.swing.JLabel longitudeLabel;
     private javax.swing.JTextField longitudeTextField;
-    private javax.swing.JLabel nomeUsuarioLogado;
     private javax.swing.JPanel painelPrincipal;
     private javax.swing.JLabel pessoaLabel;
     private javax.swing.JComboBox<String> pessoasDropdown;

@@ -8,10 +8,10 @@ import br.edu.ifnmg.rockinrio.entity.Ocorrencia;
 
 public class ExcluirOcorrenciaDialog extends javax.swing.JDialog {
     
-    private final GerenciamentoOcorrencias gerenciamentoOcorrencias;
+    private final GerenciamentoOcorrenciasDialog gerenciamentoOcorrencias;
     private final Ocorrencia ocorrenciaSelecionada;
     
-    public ExcluirOcorrenciaDialog(GerenciamentoOcorrencias gerenciamentoOcorrencias, Ocorrencia ocorrencia) {
+    public ExcluirOcorrenciaDialog(GerenciamentoOcorrenciasDialog gerenciamentoOcorrencias, Ocorrencia ocorrencia) {
         super(gerenciamentoOcorrencias, true);
         initComponents();
         this.gerenciamentoOcorrencias = gerenciamentoOcorrencias;

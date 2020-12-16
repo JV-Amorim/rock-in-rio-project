@@ -8,19 +8,30 @@ import br.edu.ifnmg.rockinrio.entity.Ocorrencia;
 import javax.swing.DefaultListModel;
 import java.awt.event.MouseEvent;
 
-public class GerenciamentoOcorrencias extends javax.swing.JFrame {
+public class GerenciamentoOcorrenciasDialog extends javax.swing.JDialog {
 
-    // TODO - Criar painel de login e obter o CPF a partir dele.
-    private final String cpfProfissionalLogado = "54079310530";
+    private final String cpfProfissionalLogado;
+    private final String nomeProfissionalLogado;
     
     private DefaultListModel<Ocorrencia> ocorrenciasEditaveis;
     private DefaultListModel<Ocorrencia> ocorrenciasLeitura;
     private int indiceOcorrenciaEditavelSelecionada;
     private int indiceOcorrenciaLeituraSelecionada;
     
-    public GerenciamentoOcorrencias() {
+    public GerenciamentoOcorrenciasDialog(
+        PaginaInicial paginaInicial,
+        String cpfProfissionalLogado,
+        String nomeProfissionalLogado
+    ) {
+        super(paginaInicial, true);
+        
+        this.cpfProfissionalLogado = cpfProfissionalLogado;
+        this.nomeProfissionalLogado = nomeProfissionalLogado;
+        
         initDados();
         initComponents();
+        
+        nomeUsuarioLogado.setText("Usuário: " + getNomeEncurtadoProfissionalSeguranca());
     }
     
     private void initDados() {
@@ -37,8 +48,6 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
                 ocorrenciasLeitura.addElement(ocorrencia);
             }
         });
-        
-        // TODO - Inserir o nome do profissional de usuário no campo "Usuário: __________".
     }
     
     public void inserirOcorrenciaNaLista(Ocorrencia ocorrencia) {
@@ -51,6 +60,19 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
     
     public void removerOcorrenciaDaLista() {
         ocorrenciasEditaveis.remove(indiceOcorrenciaEditavelSelecionada);
+    }
+    
+    private String getNomeEncurtadoProfissionalSeguranca() {
+        String nomeEncurtado;
+        String[] nomeCompletoSplitted = nomeProfissionalLogado.split(" ");
+        
+        nomeEncurtado = nomeCompletoSplitted[0];
+        
+        if (nomeCompletoSplitted.length > 1) {
+            nomeEncurtado += " " + nomeCompletoSplitted[nomeCompletoSplitted.length - 1];
+        }
+        
+        return nomeEncurtado;
     }
 
     /**
@@ -117,7 +139,7 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
         });
         popUpMenuLeitura.add(menuItemDetalhesL);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Rock In Rio - Gerenciamento de Ocorrências");
         setName("frm-gerenciamento-ocorrencias"); // NOI18N
         setResizable(false);
@@ -127,6 +149,11 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
 
         buttonRetornarMenuPrincipal.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         buttonRetornarMenuPrincipal.setText("<");
+        buttonRetornarMenuPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                buttonRetornarMenuPrincipalMouseReleased(evt);
+            }
+        });
         buttonRetornarMenuPrincipal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonRetornarMenuPrincipalActionPerformed(evt);
@@ -344,40 +371,9 @@ public class GerenciamentoOcorrencias extends javax.swing.JFrame {
         excluirOcorrenciaDialog.setVisible(true);
     }//GEN-LAST:event_menuItemExcluirActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GerenciamentoOcorrencias.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GerenciamentoOcorrencias.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GerenciamentoOcorrencias.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GerenciamentoOcorrencias.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GerenciamentoOcorrencias().setVisible(true);
-            }
-        });
-    }
+    private void buttonRetornarMenuPrincipalMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonRetornarMenuPrincipalMouseReleased
+        dispose();
+    }//GEN-LAST:event_buttonRetornarMenuPrincipalMouseReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonRegistrarNovaOcorrencia;

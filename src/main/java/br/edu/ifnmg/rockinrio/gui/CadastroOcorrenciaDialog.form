@@ -50,8 +50,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Component id="tituloPrincipal" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="nomeUsuarioLogado" min="-2" pref="161" max="-2" attributes="0"/>
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
                   <Component id="descricaoLabel" min="-2" max="-2" attributes="0"/>
@@ -103,10 +102,7 @@
                       <Component id="retornarMenuPrincipal" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="nomeUsuarioLogado" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="tituloPrincipal" alignment="0" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="tituloPrincipal" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="pessoasDropdown" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -166,15 +162,6 @@
               <Font name="Segoe UI" size="14" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Cadastro de nova ocorr&#xea;ncia"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="nomeUsuarioLogado">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="12" style="0"/>
-            </Property>
-            <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="Usu&#xe1;rio: _______________________"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="pessoaLabel">
