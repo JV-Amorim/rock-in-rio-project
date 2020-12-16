@@ -3,19 +3,134 @@
  */
 package br.edu.ifnmg.rockinrio.gui;
 
+import br.edu.ifnmg.rockinrio.dao.PessoaDao;
+import br.edu.ifnmg.rockinrio.entity.Endereco;
+import br.edu.ifnmg.rockinrio.entity.Pessoa;
+import java.time.LocalDate;
+
 public class EdicaoPessoaDialog extends javax.swing.JDialog {
 
     private final java.awt.Dialog parent;
-    private final javax.swing.JComboBox<String> pessoasDropdown;
+    private final Pessoa pessoaEmEdicao;
     
-    public EdicaoPessoaDialog(java.awt.Dialog parent, javax.swing.JComboBox<String> pessoasDropdown) {
+    public EdicaoPessoaDialog(java.awt.Dialog parent, Pessoa pessoaEmEdicao) {
         super(parent, true);
         initComponents();
         
         this.parent = parent;
-        this.pessoasDropdown = pessoasDropdown;
+        this.pessoaEmEdicao = pessoaEmEdicao;
+        preencherCamposPessoa();
+    }
+    
+    private void preencherCamposPessoa() {
+        tituloPrincipal.setText("Edição da pessoa com CPF " + pessoaEmEdicao.getCpf());
+        
+        nomeTextField.setText(pessoaEmEdicao.getNome());        
+        dataNascimentoTextField.setText(pessoaEmEdicao.getDataNascimentoEmString(true));
+        cepTextField.setText(pessoaEmEdicao.getEndereco().getCep());
+        bairroTextField.setText(pessoaEmEdicao.getEndereco().getBairro());
+        ruaTextField.setText(pessoaEmEdicao.getEndereco().getRua());
+        numeroTextField.setText(pessoaEmEdicao.getEndereco().getNumero().toString());
     }
 
+    private void salvarAlteracoes() {
+        String nome = nomeTextField.getText();
+        String tipoPessoa = (String)tipoDropdown.getSelectedItem();
+        LocalDate dataNascimento = getDataNascimentoTextFieldConteudo();
+        String cep = getCepTextFieldConteudo();
+        String bairro = bairroTextField.getText();
+        String rua = ruaTextField.getText();
+        Integer numero = getNumeroTextFieldConteudo();
+        
+        String errosText = "";
+
+        if (nome.length() == 0) {
+            errosText += "- O campo Nome é obrigatório!\n";
+        }
+        if (nome.length() > 50) {
+            errosText += "- O nome pode ter no máximo 50 caracteres!\n";
+        }
+        if (dataNascimento == null) {
+            errosText += "- O conteúdo inserido no campo Data de Nascimento é inválido!\n";
+        }
+        if (cep == null) {
+            errosText += "- O conteúdo inserido no campo CEP é inválido!\n";
+        }
+        if (bairro.length() > 30) {
+            errosText += "- O bairro pode ter no máximo 30 caracteres!\n";
+        }
+        if (rua.length() > 20) {
+            errosText += "- A rua pode ter no máximo 20 caracteres!\n";
+        }
+        if (numero == null) {
+            errosText += "- O conteúdo inserido no campo Número é inválido!\n";
+        }
+        
+        if (errosText.length() > 0) {
+            var mensagemErroDialog = new MensagemErroDialog(this, errosText);
+            mensagemErroDialog.setLocationRelativeTo(this);
+            mensagemErroDialog.setVisible(true);
+            return;
+        }
+        
+        pessoaEmEdicao.setNome(nome);
+        pessoaEmEdicao.setTipoPessoa(tipoPessoa);
+        pessoaEmEdicao.setDataNascimento(dataNascimento);
+        pessoaEmEdicao.setEndereco(new Endereco(cep, bairro, rua, numero));
+        
+        PessoaDao.atualizar(pessoaEmEdicao);
+        
+        if (parent.getClass().toString().equals("br.edu.ifnmg.rockinrio.gui.CadastroOcorrenciaDialog")) {
+            ((CadastroOcorrenciaDialog)parent).atualizarListaComNovaPessoa(pessoaEmEdicao);
+        }
+        else if (parent.getClass().toString().equals("br.edu.ifnmg.rockinrio.gui.EdicaoOcorrenciaDialog")) {
+            ((EdicaoOcorrenciaDialog)parent).atualizarListaPessoaEditada(pessoaEmEdicao);
+        }
+        
+        dispose();
+    }
+    
+    private LocalDate getDataNascimentoTextFieldConteudo() {
+        LocalDate dataNascimento;
+        
+        try {
+            String[] dataSplitted = dataNascimentoTextField.getText().split("/");
+            int dia = Integer.parseInt(dataSplitted[0]);
+            int mes = Integer.parseInt(dataSplitted[1]);
+            int ano = Integer.parseInt(dataSplitted[2]);
+            
+            dataNascimento = LocalDate.of(ano, mes, dia);
+        }
+        catch (Exception e) {
+            return null;
+        }
+        
+        return dataNascimento;
+    }
+    
+    private String getCepTextFieldConteudo() {
+        String cep = cepTextField.getText();
+        
+        boolean isNumeric = cep.chars().allMatch(Character::isDigit);
+        
+        if (!isNumeric || cep.length() != 8) return null;
+        
+        return cep;
+    }
+    
+    private Integer getNumeroTextFieldConteudo() {
+        Integer numero;
+        
+        try {
+            numero = Integer.parseInt(numeroTextField.getText());
+        }
+        catch (Exception e) {
+            return null;
+        }
+        
+        return numero;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -220,6 +335,11 @@ public class EdicaoPessoaDialog extends javax.swing.JDialog {
 
         salvarButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         salvarButton.setText("Salvar");
+        salvarButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                salvarButtonMouseReleased(evt);
+            }
+        });
         salvarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 salvarButtonActionPerformed(evt);
@@ -259,8 +379,12 @@ public class EdicaoPessoaDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_buttonRetornarMenuPrincipalActionPerformed
 
     private void salvarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarButtonActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_salvarButtonActionPerformed
+
+    private void salvarButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salvarButtonMouseReleased
+        salvarAlteracoes();
+    }//GEN-LAST:event_salvarButtonMouseReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bairroLabel;

@@ -86,7 +86,7 @@ public final class OcorrenciaDao {
     }
 
     public static ArrayList<Ocorrencia> obterTodos() {
-        ArrayList<Ocorrencia> ocorrencias = new ArrayList<>();
+        ArrayList<Ocorrencia> ocorrencias;
         
         String sqlStatement =
             "SELECT * FROM "
@@ -100,8 +100,7 @@ public final class OcorrenciaDao {
             ocorrencias = gerarObjetos(resultSet);
         }
 	catch (Exception e) {
-            // TODO - Exibir mensagem de erro.
-            e.printStackTrace();
+            return null;
         }
         
         return ocorrencias;
@@ -134,7 +133,13 @@ public final class OcorrenciaDao {
     }
     
     public static int obterProximoNumeroOcorrencia() {
-        return obterTodos().size() + 1;
+        ArrayList<Ocorrencia> ocorrencias = obterTodos();
+        
+        if (ocorrencias.isEmpty()) {
+            return 1;
+        }
+        
+        return ocorrencias.get(ocorrencias.size() - 1).getNumero() + 1;
     }
 
     private static ArrayList<Ocorrencia> gerarObjetos(ResultSet resultSet) {
@@ -157,8 +162,7 @@ public final class OcorrenciaDao {
             }
         }
         catch (SQLException e) {
-            // TODO - Exibir mensagem de erro.
-            e.printStackTrace();
+            return null;
         }
 
         return ocorrencias;

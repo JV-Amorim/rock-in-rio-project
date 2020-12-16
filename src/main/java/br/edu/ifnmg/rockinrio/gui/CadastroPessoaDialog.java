@@ -3,17 +3,140 @@
  */
 package br.edu.ifnmg.rockinrio.gui;
 
+import br.edu.ifnmg.rockinrio.dao.PessoaDao;
+import br.edu.ifnmg.rockinrio.entity.Endereco;
+import br.edu.ifnmg.rockinrio.entity.Pessoa;
+import java.time.LocalDate;
+
 public class CadastroPessoaDialog extends javax.swing.JDialog {
 
     private final java.awt.Dialog parent;
-    private final javax.swing.JComboBox<String> pessoasDropdown;
     
-    public CadastroPessoaDialog(java.awt.Dialog parent, javax.swing.JComboBox<String> pessoasDropdown) {
+    public CadastroPessoaDialog(java.awt.Dialog parent) {
         super(parent, true);
         initComponents();
         
         this.parent = parent;
-        this.pessoasDropdown = pessoasDropdown;
+    }
+    
+    private void salvarAlteracoes() {
+        String cpf = getCpfTextFieldConteudo();
+        String nome = nomeTextField.getText();
+        String tipoPessoa = (String)tipoDropdown.getSelectedItem();
+        LocalDate dataNascimento = getDataNascimentoTextFieldConteudo();
+        String cep = getCepTextFieldConteudo();
+        String bairro = bairroTextField.getText();
+        String rua = ruaTextField.getText();
+        Integer numero = getNumeroTextFieldConteudo();
+        
+        
+        String errosText = "";
+
+        if (PessoaDao.obter(cpf) != null) {
+            errosText += "- A pessoa que possui este CPF já está cadastrada!\n";
+        }
+        if (cpf == null) {
+            errosText += "- O conteúdo inserido no campo CPF é inválido!\n";
+        }
+        if (nome.length() == 0) {
+            errosText += "- O campo Nome é obrigatório!\n";
+        }
+        if (nome.length() > 50) {
+            errosText += "- O nome pode ter no máximo 50 caracteres!\n";
+        }
+        if (dataNascimento == null) {
+            errosText += "- O conteúdo inserido no campo Data de Nascimento é inválido!\n";
+        }
+        if (cep == null) {
+            errosText += "- O conteúdo inserido no campo CEP é inválido!\n";
+        }
+        if (bairro.length() > 30) {
+            errosText += "- O bairro pode ter no máximo 30 caracteres!\n";
+        }
+        if (rua.length() > 20) {
+            errosText += "- A rua pode ter no máximo 20 caracteres!\n";
+        }
+        if (numero == null) {
+            errosText += "- O conteúdo inserido no campo Número é inválido!\n";
+        }
+        
+        if (errosText.length() > 0) {
+            var mensagemErroDialog = new MensagemErroDialog(this, errosText);
+            mensagemErroDialog.setLocationRelativeTo(this);
+            mensagemErroDialog.setVisible(true);
+            return;
+        }
+        
+        Pessoa pessoa =
+            new Pessoa(
+                cpf,
+                nome,
+                tipoPessoa,
+                dataNascimento,
+                new Endereco(cep, bairro, rua, numero)
+            );
+        
+        PessoaDao.inserir(pessoa);
+        
+        if (parent.getClass().toString().equals("br.edu.ifnmg.rockinrio.gui.CadastroOcorrenciaDialog")) {
+            ((CadastroOcorrenciaDialog)parent).atualizarListaComNovaPessoa(pessoa);
+        }
+        else if (parent.getClass().toString().equals("br.edu.ifnmg.rockinrio.gui.EdicaoOcorrenciaDialog")) {
+            ((EdicaoOcorrenciaDialog)parent).atualizarListaPessoaEditada(pessoa);
+        }
+        
+        dispose();
+    }
+    
+    private String getCpfTextFieldConteudo() {
+        String cpf = cpfTextField.getText();
+        
+        boolean isNumeric = cpf.chars().allMatch(Character::isDigit);
+        
+        if (!isNumeric || cpf.length() != 11) return null;
+        
+        return cpf;
+    }
+    
+    private LocalDate getDataNascimentoTextFieldConteudo() {
+        LocalDate dataNascimento;
+        
+        try {
+            String[] dataSplitted = dataNascimentoTextField.getText().split("/");
+            int dia = Integer.parseInt(dataSplitted[0]);
+            int mes = Integer.parseInt(dataSplitted[1]);
+            int ano = Integer.parseInt(dataSplitted[2]);
+            
+            dataNascimento = LocalDate.of(ano, mes, dia);
+        }
+        catch (Exception e) {
+            return null;
+        }
+        
+        return dataNascimento;
+    }
+    
+    private String getCepTextFieldConteudo() {
+        String cep = cepTextField.getText();
+        
+        boolean isNumeric = cep.chars().allMatch(Character::isDigit);
+        
+        if (!isNumeric || cep.length() != 8) return null;
+        
+        return cep;
+    }
+    
+    private Integer getNumeroTextFieldConteudo() {
+        Integer numero;
+        
+        try {
+            numero = Integer.parseInt(numeroTextField.getText());
+        }
+        catch (Exception e) {
+            return null;
+        }
+        
+        return numero;
     }
 
     /**
@@ -91,7 +214,7 @@ public class CadastroPessoaDialog extends javax.swing.JDialog {
 
         dataNascimentoLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         dataNascimentoLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        dataNascimentoLabel.setText("Data de nascimento");
+        dataNascimentoLabel.setText("Data de Nascimento");
 
         dataNascimentoTextField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         dataNascimentoTextField.setToolTipText("Formato: DD/MM/AAAA");
@@ -131,7 +254,7 @@ public class CadastroPessoaDialog extends javax.swing.JDialog {
         numeroLabel.setText("Número");
 
         numeroTextField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        numeroTextField.setToolTipText("");
+        numeroTextField.setToolTipText("Apenas números.");
 
         javax.swing.GroupLayout painelPrincipalLayout = new javax.swing.GroupLayout(painelPrincipal);
         painelPrincipal.setLayout(painelPrincipalLayout);
@@ -238,6 +361,11 @@ public class CadastroPessoaDialog extends javax.swing.JDialog {
 
         salvarButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         salvarButton.setText("Salvar");
+        salvarButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                salvarButtonMouseReleased(evt);
+            }
+        });
         salvarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 salvarButtonActionPerformed(evt);
@@ -279,6 +407,10 @@ public class CadastroPessoaDialog extends javax.swing.JDialog {
     private void buttonRetornarMenuPrincipalMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonRetornarMenuPrincipalMouseReleased
         dispose();
     }//GEN-LAST:event_buttonRetornarMenuPrincipalMouseReleased
+
+    private void salvarButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salvarButtonMouseReleased
+        salvarAlteracoes();
+    }//GEN-LAST:event_salvarButtonMouseReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bairroLabel;

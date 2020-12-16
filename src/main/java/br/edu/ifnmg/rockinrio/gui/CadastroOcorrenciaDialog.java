@@ -30,6 +30,7 @@ public class CadastroOcorrenciaDialog extends javax.swing.JDialog {
     
     private void initPessoasDropdown() {
         pessoas = PessoaDao.obterTodos();
+        pessoasDropdown.removeAllItems();
         for (int i = 0; i < pessoas.size(); i++) {
             String cpf = pessoas.get(i).getCpf();
             String nome = pessoas.get(i).getNome();
@@ -47,26 +48,25 @@ public class CadastroOcorrenciaDialog extends javax.swing.JDialog {
         Double latitude = getLatitudeTextFieldConteudo();
         Double longitude = getLongitudeTextFieldConteudo();
         
-        if (descricao.length() > 50 || dataOcorrencia == null || latitude == null || longitude == null) {
-            String errosText = "";
-            
-            if (descricao.length() > 50) {
-                errosText += "- A descrição pode ter 50 caracteres no máximo!\n";
-            }
-            if (dataOcorrencia == null) {
-                errosText += "- O conteúdo inserido no campo Data é inválido!\n";
-            }
-            if (latitude == null) {
-                errosText += "- O conteúdo inserido no campo Latitude é inválido!\n";
-            }
-            if (longitude == null) {
-                errosText += "- O conteúdo inserido no campo Longitude é inválido!";
-            }
-            
+        String errosText = "";
+
+        if (descricao.length() > 50) {
+            errosText += "- A descrição pode ter 50 caracteres no máximo!\n";
+        }
+        if (dataOcorrencia == null) {
+            errosText += "- O conteúdo inserido no campo Data é inválido!\n";
+        }
+        if (latitude == null) {
+            errosText += "- O conteúdo inserido no campo Latitude é inválido!\n";
+        }
+        if (longitude == null) {
+            errosText += "- O conteúdo inserido no campo Longitude é inválido!";
+        }
+        
+        if (errosText.length() > 0) {
             var mensagemErroDialog = new MensagemErroDialog(this, errosText);
             mensagemErroDialog.setLocationRelativeTo(this);
             mensagemErroDialog.setVisible(true);
-            
             return;
         }
         
@@ -127,6 +127,26 @@ public class CadastroOcorrenciaDialog extends javax.swing.JDialog {
             return null;
         }
         return longitude;
+    }
+    
+    
+    public void atualizarListaComNovaPessoa(Pessoa pessoa) {
+        int indiceDaPessoaNaLista = -1;
+        
+        pessoas = PessoaDao.obterTodos();
+        pessoasDropdown.removeAllItems();
+        
+        for (int i = 0; i < pessoas.size(); i++) {
+            String cpf = pessoas.get(i).getCpf();
+            String nome = pessoas.get(i).getNome();
+            pessoasDropdown.addItem("CPF: " + cpf + " | Nome: " + nome);
+            
+            if (cpf.equals(pessoa.getCpf())) indiceDaPessoaNaLista = i;
+        }
+        
+        if (indiceDaPessoaNaLista != -1) {
+            pessoasDropdown.setSelectedIndex(indiceDaPessoaNaLista);
+        }
     }
 
     /**
@@ -436,14 +456,28 @@ public class CadastroOcorrenciaDialog extends javax.swing.JDialog {
 
     private void adicionarPessoaButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_adicionarPessoaButtonMouseReleased
         var cadastrarPessoaDialog =
-            new CadastroPessoaDialog(this, pessoasDropdown);
+            new CadastroPessoaDialog(this);
         cadastrarPessoaDialog.setLocationRelativeTo(this);
         cadastrarPessoaDialog.setVisible(true);
     }//GEN-LAST:event_adicionarPessoaButtonMouseReleased
 
     private void editarPessoaButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editarPessoaButtonMouseReleased
+        String cpfPessoaSelecionada =
+            ((String)pessoasDropdown.getSelectedItem())
+            .split("\\|")[0].trim()
+            .replace("CPF: ", "");
+        
+        Pessoa pessoaSelecionada = PessoaDao.obter(cpfPessoaSelecionada);
+        
+        if (pessoaSelecionada == null) {
+            var mensagemErroDialog = new MensagemErroDialog(this, "Não foi possível realizar a ação.");
+            mensagemErroDialog.setLocationRelativeTo(this);
+            mensagemErroDialog.setVisible(true);
+            return;
+        }
+        
         var edicaoPessoaDialog =
-            new EdicaoPessoaDialog(this, pessoasDropdown);
+            new EdicaoPessoaDialog(this, pessoaSelecionada);
         edicaoPessoaDialog.setLocationRelativeTo(this);
         edicaoPessoaDialog.setVisible(true);
     }//GEN-LAST:event_editarPessoaButtonMouseReleased

@@ -37,9 +37,33 @@ public final class PessoaDao {
         
         return true;
     }
+    
+     public static Boolean atualizar(Pessoa pessoa) {
+        String sqlStatement =
+            "UPDATE PESSOA SET "
+            + "TIPOPESSOA=?, DATANASCIMENTO=?, NOME=?, CEP=?, BAIRRO=?, NUMERO=?, RUA=?"
+            + "WHERE CPF=?";
+        
+        try (PreparedStatement pstmt = DatabaseManager.getConnection().prepareStatement(sqlStatement)) {
+            pstmt.setString(1, pessoa.getTipoPessoa());
+            pstmt.setDate(2, LocalDateHelper.localDateToSqlDate(pessoa.getDataNascimento()));
+            pstmt.setString(3, pessoa.getNome());
+            pstmt.setString(4, pessoa.getEndereco().getCep());
+            pstmt.setString(5, pessoa.getEndereco().getBairro());
+            pstmt.setInt(6, pessoa.getEndereco().getNumero());
+            pstmt.setString(7, pessoa.getEndereco().getRua());
+            pstmt.setString(8, pessoa.getCpf());
+            pstmt.executeUpdate();
+        }
+	catch (Exception e) {
+            return false;
+        }
+        
+        return true;
+    }
 
     public static Pessoa obter(String cpfPessoa) {
-        Pessoa pessoa = null;
+        Pessoa pessoa;
         
         String sqlStatement = "SELECT * FROM PESSOA WHERE CPF=?";
         
@@ -49,15 +73,14 @@ public final class PessoaDao {
             pessoa = gerarObjeto(resultSet);
         }
 	catch (Exception e) {
-            // TODO - Exibir mensagem de erro.
-            e.printStackTrace();
+            return null;
         }
         
         return pessoa;
     }
 
     public static ArrayList<Pessoa> obterTodos() {
-        ArrayList<Pessoa> pessoas = new ArrayList<>();
+        ArrayList<Pessoa> pessoas;
         
         String sqlStatement = "SELECT CPF, NOME FROM PESSOA";
         
@@ -66,15 +89,14 @@ public final class PessoaDao {
             pessoas = gerarObjetos(resultSet);
         }
 	catch (Exception e) {
-            // TODO - Exibir mensagem de erro.
-            e.printStackTrace();
+            return null;
         }
         
         return pessoas;
     }
     
     private static Pessoa gerarObjeto(ResultSet resultSet) {
-        Pessoa pessoa = null;
+        Pessoa pessoa;
 
         try {
             resultSet.next();
@@ -93,8 +115,7 @@ public final class PessoaDao {
             );
         }
         catch (SQLException e) {
-            // TODO - Exibir mensagem de erro.
-            e.printStackTrace();
+            return null;
         }
 
         return pessoa;
@@ -112,8 +133,7 @@ public final class PessoaDao {
             }
         }
         catch (SQLException e) {
-            // TODO - Exibir mensagem de erro.
-            e.printStackTrace();
+            return null;
         }
 
         return pessoas;

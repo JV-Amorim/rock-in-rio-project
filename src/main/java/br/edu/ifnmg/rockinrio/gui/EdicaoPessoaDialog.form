@@ -351,6 +351,7 @@
         <Property name="text" type="java.lang.String" value="Salvar"/>
       </Properties>
       <Events>
+        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="salvarButtonMouseReleased"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="salvarButtonActionPerformed"/>
       </Events>
     </Component>
