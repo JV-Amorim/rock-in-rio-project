@@ -10,13 +10,18 @@ import java.time.LocalDate;
 
 public class CadastroEspectadorDialog extends javax.swing.JDialog {
 
+    /**
+     * cadastroIngresso vai guardar uma referência a janela de Ingressos que a
+     * abriu para compartilhamento de informações.
+     * atributo Novo identifica se será a criação de um espectador ou a 
+     * edição do mesmo
+     * eSeçecionado guarda uma referência ao espectador escolhido no ComboList
+     * de ingressos.
+     */
     CadastroIngressoDialog cadastroIngresso;
     Boolean novo;
     Espectador eSelecionado;
 
-    /**
-     * Creates new form CadastroEspectadorDialog
-     */
     public CadastroEspectadorDialog(CadastroIngressoDialog cadastroIngresso, Boolean novo) {
         super(cadastroIngresso, true);
 
@@ -41,6 +46,13 @@ public class CadastroEspectadorDialog extends javax.swing.JDialog {
         txtCpf.setEditable(novo);
     }
 
+    /**
+     * Método que obtém as informações dos campos do formulário para a criação
+     * de um objeto do tipo Espectador para ser persistido no banco de dados.
+     * há uma diferença de execução dependendo do tipo de serviço solicitado
+     * se é a criação ou edição de um espectador, que será distinguível através
+     * do atributo "novo"
+     */
     private void salvarEspectador() {
 
         int codigo = EspectadorDao.obterProximoCodigo();
@@ -75,11 +87,18 @@ public class CadastroEspectadorDialog extends javax.swing.JDialog {
             EspectadorDao.atualizar(espectador);
         }
 
+        /**
+         * atualiza o Menu Combo Espectador da janela de criação de ingressos.
+         */
         cadastroIngresso.initCmbEspectador();
 
         dispose();
     }
 
+    /**
+     * Caso este dialog tenha sido chamado para edição de um Espectador já
+     * existente, preencher seus dados nos campos para alteração.
+     */
     private void initCampos() {
         txtCpf.setText(eSelecionado.getCpf());
         txtNome.setText(eSelecionado.getNome());

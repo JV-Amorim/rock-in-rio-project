@@ -16,6 +16,12 @@ public final class OcorrenciaDao {
     private OcorrenciaDao() { }
     //</editor-fold>
     
+    /**
+     * Método para inserir uma ocorrência no banco de dados através de uma consulta
+     * sql "sqlStatement"
+     * @param ocorrencia Ocorrencia preenchida com os dados a serem persistidos
+     * @return 
+     */
     public static Boolean inserir(Ocorrencia ocorrencia) {
         var connection = DatabaseManager.getConnection();
         
@@ -49,6 +55,11 @@ public final class OcorrenciaDao {
         return true;
     }
     
+    /**
+     * Método que atualiza uma instância do tipo Ocorrencia persistida no banco de dados
+     * @param ocorrencia Objeto preenchido com os novos dados/valores
+     * @return 
+     */
     public static Boolean atualizar(Ocorrencia ocorrencia) {
         var connection = DatabaseManager.getConnection();
         
@@ -85,6 +96,12 @@ public final class OcorrenciaDao {
         return true;
     }
 
+   /**
+     * Cria uma lista de instâncias do tipo especificado no ArrayList através
+     * de uma Consulta no Banco de dados e a retorna como resultado
+     * @sqlStatement String que representa a linha de comando no banco de dados
+     * @return Lista de objetos prontos do tipo especificado no ArrayList
+     */
     public static ArrayList<Ocorrencia> obterTodos() {
         ArrayList<Ocorrencia> ocorrencias;
         
@@ -106,6 +123,12 @@ public final class OcorrenciaDao {
         return ocorrencias;
     }
 
+    /**
+     * Executa um comando de atualização no banco de dados para excluir uma
+     * determinada Ocorrencia através de seu numero (ID)
+     * @param ocorrencia ocorrencia a ser excluida
+     * @return 
+     */
     public static Boolean excluir(Ocorrencia ocorrencia) {
         var connection = DatabaseManager.getConnection();
         
@@ -132,6 +155,11 @@ public final class OcorrenciaDao {
         return true;
     }
     
+    /**
+     * Algorítmo para geração de um novo id para uma nova instância do tipo
+     * Ocorrencia
+     * @return 
+     */
     public static int obterProximoNumeroOcorrencia() {
         ArrayList<Ocorrencia> ocorrencias = obterTodos();
         
@@ -142,6 +170,11 @@ public final class OcorrenciaDao {
         return ocorrencias.get(ocorrencias.size() - 1).getNumero() + 1;
     }
 
+    /**
+     * Gera uma lista de Ocorrências através de um resultado de uma consulta SQL
+     * @param resultSet
+     * @return 
+     */
     private static ArrayList<Ocorrencia> gerarObjetos(ResultSet resultSet) {
         ArrayList<Ocorrencia> ocorrencias = new ArrayList<>();
 

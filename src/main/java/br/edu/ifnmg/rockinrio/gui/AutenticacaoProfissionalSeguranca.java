@@ -10,12 +10,21 @@ public class AutenticacaoProfissionalSeguranca extends javax.swing.JDialog {
 
     private final PaginaInicial paginaInicial;
     
+    /**
+     * Pagina de autenticação do Profissional de segurança, as informações
+     * referentes as ocorrências são mostradas apenas aos profissionais cadastrados
+     * @param paginaInicial 
+     */
     public AutenticacaoProfissionalSeguranca(PaginaInicial paginaInicial) {
         super(paginaInicial, true);
         initComponents();
         this.paginaInicial = paginaInicial;
     }
     
+    /**
+     * Máscara para validação do CPF
+     * @return 
+     */
     private String getCpfTextFieldConteudo() {
         String cpf = cpfTextField.getText();
         
@@ -113,6 +122,11 @@ public class AutenticacaoProfissionalSeguranca extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Método que abre a janela de Gerenciamento de ocorrências, apenas se
+     * o CPF informado for válido.
+     * @param evt 
+     */
     private void submitButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_submitButtonMouseReleased
         String cpf = getCpfTextFieldConteudo();
         

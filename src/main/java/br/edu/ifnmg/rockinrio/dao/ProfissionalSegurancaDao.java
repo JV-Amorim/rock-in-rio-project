@@ -14,6 +14,12 @@ public class ProfissionalSegurancaDao {
     private ProfissionalSegurancaDao() { }
     //</editor-fold>
     
+    /**
+     * Realiza uma consulta SQL para obter uma instância persistida do tipo
+     * Profissional de segurança
+     * @param cpf usado para identificar o Profissional de Segurança
+     * @return profissional com seus dados preenchidos (objeto criado)
+     */
     public static ProfissionalSeguranca obter(String cpf) {
         ProfissionalSeguranca profissionalSeg;
         
@@ -40,6 +46,12 @@ public class ProfissionalSegurancaDao {
         return profissionalSeg;
     }
     
+    /**
+     * gera um Objeto do tipo Profissional  de segurança através
+     * de uma linha de resultadoSQL (consulta) e o retorna.
+     * @param resultSet
+     * @return 
+     */
     private static ProfissionalSeguranca gerarObjeto(ResultSet resultSet) {
         ProfissionalSeguranca profissionalSeg;
 

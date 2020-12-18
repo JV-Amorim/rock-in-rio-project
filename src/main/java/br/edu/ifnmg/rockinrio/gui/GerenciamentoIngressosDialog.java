@@ -5,6 +5,7 @@ package br.edu.ifnmg.rockinrio.gui;
 
 import br.edu.ifnmg.rockinrio.dao.IngressoDao;
 import br.edu.ifnmg.rockinrio.entity.Ingresso;
+import java.awt.event.MouseEvent;
 import javax.swing.DefaultListModel;
 
 /**
@@ -13,24 +14,26 @@ import javax.swing.DefaultListModel;
  */
 public class GerenciamentoIngressosDialog extends javax.swing.JDialog {
 
-    
     private DefaultListModel<Ingresso> lstIngressosModel;
+
+    private int indiceIngressoSelecionado;
+
     /**
      * Creates new form GerenciamentoIngressosDialog
      */
     public GerenciamentoIngressosDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        
+
         lstIngressosModel = new DefaultListModel<>();
-        
+
         var ingressos = IngressoDao.obterTodos();
-        
+
         lstIngressosModel.addAll(ingressos);
-        
+
         initComponents();
     }
-    
-    public void inserirIngressoNaLista(Ingresso ingresso){
+
+    public void inserirIngressoNaLista(Ingresso ingresso) {
         lstIngressosModel.addElement(ingresso);
     }
 
@@ -43,6 +46,8 @@ public class GerenciamentoIngressosDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pppMenu = new javax.swing.JPopupMenu();
+        mnuExcluir = new javax.swing.JMenuItem();
         pnlIngressos = new javax.swing.JPanel();
         lblIngressos = new javax.swing.JLabel();
         scrLstIngressos = new javax.swing.JScrollPane();
@@ -51,12 +56,26 @@ public class GerenciamentoIngressosDialog extends javax.swing.JDialog {
         buttonRetornarMenuPrincipal = new javax.swing.JButton();
         retornarMenuPrincipal = new javax.swing.JLabel();
 
+        mnuExcluir.setMnemonic('x');
+        mnuExcluir.setText("Excluir");
+        mnuExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuExcluirActionPerformed(evt);
+            }
+        });
+        pppMenu.add(mnuExcluir);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblIngressos.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblIngressos.setText("Ingressos");
 
         lstIngressos.setModel(lstIngressosModel);
+        lstIngressos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lstIngressosMouseReleased(evt);
+            }
+        });
         scrLstIngressos.setViewportView(lstIngressos);
 
         btnCadastrar.setText("Cadastrar");
@@ -153,13 +172,33 @@ public class GerenciamentoIngressosDialog extends javax.swing.JDialog {
 
     }//GEN-LAST:event_buttonRetornarMenuPrincipalActionPerformed
 
+    private void lstIngressosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstIngressosMouseReleased
+        
+        if (evt.getButton() == MouseEvent.BUTTON3 && lstIngressos.getModel().getSize() > 0) {
+            
+            indiceIngressoSelecionado = lstIngressos.locationToIndex(evt.getPoint());
+            
+            lstIngressos.setSelectedIndex(indiceIngressoSelecionado);
+            
+            pppMenu.show(lstIngressos, evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_lstIngressosMouseReleased
+
+    private void mnuExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuExcluirActionPerformed
+        new IngressoDao().excluir(lstIngressosModel.get(indiceIngressoSelecionado));
+        
+        lstIngressosModel.remove(lstIngressos.getSelectedIndex());
+    }//GEN-LAST:event_mnuExcluirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton buttonRetornarMenuPrincipal;
     private javax.swing.JLabel lblIngressos;
     private javax.swing.JList<Ingresso> lstIngressos;
+    private javax.swing.JMenuItem mnuExcluir;
     private javax.swing.JPanel pnlIngressos;
+    private javax.swing.JPopupMenu pppMenu;
     private javax.swing.JLabel retornarMenuPrincipal;
     private javax.swing.JScrollPane scrLstIngressos;
     // End of variables declaration//GEN-END:variables

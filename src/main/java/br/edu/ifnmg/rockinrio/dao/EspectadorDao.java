@@ -15,6 +15,11 @@ import java.util.ArrayList;
 
 public class EspectadorDao {
 
+    /**
+     * Insere um Espectador, que é uma pessoa, no Banco de dados
+     * @param espectador objeto com todas as informações a serem persistidas
+     * @return confirmação se foi possível ou não salvar o espectador.
+     */
     public static boolean inserir(Espectador espectador) {
 
         String sqlStatement = "INSERT INTO pessoa VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -46,6 +51,12 @@ public class EspectadorDao {
         return true;
     }
 
+    /**
+     * Atualiza uma instância no banco de dados
+     * @param espectador entidade com os novos valores a serem persistidos
+     * substituindo uma instância já existente.
+     * @return  confirmação da atualização
+     */
     public static Boolean atualizar(Espectador espectador) {
         String sqlStatement
                 = "UPDATE PESSOA SET TIPOPESSOA=?, DATANASCIMENTO=?,"
@@ -68,6 +79,11 @@ public class EspectadorDao {
         return true;
     }
 
+    /**
+     * Constrói um objeto do tipo Espectador com informações obtidas do banco de dados
+     * @param cpfEspectador Atributo de Identificação de Espectador (Pessoa)
+     * @return retorna o Objeto construído (Espectador)
+     */
     public static Espectador obterUm(String cpfEspectador) {
         Espectador espectador = new Espectador();
 
@@ -87,7 +103,10 @@ public class EspectadorDao {
 
         return espectador;
     }
-
+    /**
+     * Execulta uma consulta de todos os Espectadores (Pessoas) do banco de dados
+     * @return Lista de espectadores obtidos
+     */
     public static ArrayList<Espectador> obterTodos() {
         ArrayList<Espectador> espectadores = new ArrayList<>();
 
@@ -105,6 +124,13 @@ public class EspectadorDao {
         return espectadores;
     }
 
+    /**
+     * Obtem o resultado de uma consulta no banco de dados e gera uma lista de 
+     * espectadores
+     * @param resultSet consulta do banco de dados com todas as instâncias do
+     * tipo Espectador (Pessoa)
+     * @return Lista de Espectadores
+     */
     public static ArrayList<Espectador> gerarEspectadores(ResultSet resultSet) {
 
         ArrayList<Espectador> espectadores = new ArrayList<>();
@@ -122,6 +148,14 @@ public class EspectadorDao {
         return espectadores;
     }
 
+    /**
+     * Através de uma tupla de resultado, monta um Espectador através do construtor
+     * sobrecarregado que obtém todas suas informações, incluindo um objeto do tipo
+     * endereço
+     * @param resultSet uma tupla de resultado da consulta de todos Espectadores
+     * @return  uma Instância do tipo espectador
+     * @throws SQLException 
+     */
     public static Espectador gerarEspectador(ResultSet resultSet) throws SQLException {
 
         Espectador espectador;
@@ -151,6 +185,10 @@ public class EspectadorDao {
         return espectador;
     }
     
+    /**
+     * Geração automática de chave primária para Espectador ( auto_increment )
+     * @return inteiro que representa a chave única de Espectador (código)
+     */
     public static int obterProximoCodigo(){
         ArrayList<Espectador> espectadores = obterTodos();
         
@@ -159,6 +197,21 @@ public class EspectadorDao {
         }
         
         return espectadores.get(espectadores.size() - 1).getCodigo() + 1;
+    }
+    
+        public static Boolean excluir(Espectador espectador){
+        
+        String sqlStatement = "DELETE FROM pessoa WHERE cpf = ?";
+        
+        try (PreparedStatement pstmt = DatabaseManager.getConnection().prepareStatement(sqlStatement)) {
+            pstmt.setString(1, espectador.getCpf());
+            pstmt.executeUpdate();
+        }
+	catch (Exception e) {
+            return false;
+        }
+                
+        return true;
     }
 
 }

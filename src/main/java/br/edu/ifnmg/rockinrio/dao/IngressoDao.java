@@ -14,6 +14,11 @@ import java.util.ArrayList;
 
 public class IngressoDao {
     
+    /**
+     * Recebe uma instância do tipo Ingresso para ser persistida no banco de dados
+     * @param ingresso objeto completo, com as informações a serem persistidas
+     * @return confirmação do processo de inserção
+     */
     public static Boolean inserir(Ingresso ingresso){
         
         String sqlStatement = "INSERT INTO ingresso VALUES (?, ?, ?, ?, ?, ?)";
@@ -33,6 +38,12 @@ public class IngressoDao {
         return true;
     }
     
+    /**
+     * Faz uma consulta no banco de dados para construir um objeto do tipo Ingresso
+     * @param numero inteiro que representa a chave primária de ingresso
+     * que será utilizada para consulta
+     * @return 
+     */
     public static Ingresso obterUm(int numero){
         Ingresso ingresso = new Ingresso();
         
@@ -53,6 +64,13 @@ public class IngressoDao {
         return ingresso;
     }
     
+    /**
+     * Monta uma instância do tipo Ingresso através de uma tupla, resultante
+     * de uma consulta no banco de dados
+     * @param resultSet resultado de consulta (uma linha)
+     * @return Ingresso Construido
+     * @throws SQLException 
+     */
     public static Ingresso gerarIngresso(ResultSet resultSet) throws SQLException{
         
         Ingresso ingresso = new Ingresso(
@@ -69,6 +87,11 @@ public class IngressoDao {
         return ingresso;
     }
     
+    /**
+     * Faz uma consulta para obter TODOS os ingressos persistidos no banco de dados
+     * 
+     * @return uma lista de ingressos montados 
+     */
     public static ArrayList<Ingresso> obterTodos(){
         
         ArrayList<Ingresso> ingressos;
@@ -88,6 +111,13 @@ public class IngressoDao {
         return ingressos;
     }
 
+    
+    /**
+     * Prepara a construção de uma lista de ingressos, recebe o resultado
+     * inteiro de uma consulta, e envia uma tupla para geração de cada Ingresso
+     * @param resultSet Resultado inteiro de uma consulta SQL
+     * @return Lista de ingressos pronta
+     */
     public static ArrayList<Ingresso> gerarIngressos(ResultSet resultSet){
         
         ArrayList<Ingresso> ingressos = new ArrayList<>();
@@ -105,6 +135,12 @@ public class IngressoDao {
         return ingressos;
     }
     
+    /**
+     * Atualza uma instância persistida no banco de dados através de um objeto
+     * do tipo ingresso passado como parâmetro
+     * @param ingresso ingresso com os novos atributos a serem persistidos
+     * @return 
+     */
     public static Boolean atualizar(Ingresso ingresso){
         
         String sqlStatement = "update ingresso set numero=?, valor = ?,"
@@ -127,6 +163,13 @@ public class IngressoDao {
         return true;
     }
     
+    /**
+     * Deleta do banco de dados uma instância através do número do ingresso passado
+     * como parâmetro
+     * @param ingresso ingresso completo, que servirá para identificar a instância
+     * a ser excluida
+     * @return 
+     */
     public static Boolean excluir(Ingresso ingresso){
         
         String sqlStatement = "delete from ingresso where numero = ?";
@@ -141,7 +184,11 @@ public class IngressoDao {
                 
         return true;
     }
-    
+    /**
+     * Gera um novo identificado para uma nova instância de Ingresso.
+     * Pega o ultimo ingresso de uma consulta, adiciona um ao seu ID e retorna
+     * @return ID para uma nova instância
+     */
     public static int obterProximoNumero(){
         ArrayList<Ingresso> ingressos = obterTodos();
         

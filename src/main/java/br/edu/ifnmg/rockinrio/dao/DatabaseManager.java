@@ -48,6 +48,9 @@ public class DatabaseManager {
         return connection;
     }
     
+    /**
+     * Lê um arquivo com as propriedads do banco de dados
+     */
     private static boolean getConnectionProperties() {
         var classLoader = DatabaseManager.class.getClassLoader();
         
