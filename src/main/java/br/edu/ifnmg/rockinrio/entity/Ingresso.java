@@ -1,6 +1,7 @@
 /*
  * Projeto de conclusão das disciplinas de BD e POO (Ciência da Computação/IFNMG).
  */
+
 package br.edu.ifnmg.rockinrio.entity;
 
 import java.time.LocalDate;
@@ -96,7 +97,6 @@ public class Ingresso {
 
     @Override
     public String toString() {
-        return numero +"    "+ nomeEspectador +"    "+ pertenceDataLineup 
-                +"    "+ horaEntrada ;
+        return numero +"          |          "+ nomeEspectador +"          |          "+ pertenceDataLineup;
     }
 }

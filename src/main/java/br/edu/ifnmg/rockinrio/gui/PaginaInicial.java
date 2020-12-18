@@ -38,7 +38,6 @@ public class PaginaInicial extends javax.swing.JFrame {
         tituloPrincipal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         tituloPrincipal.setText("Rock In Rio - Sistema de Ocorrências e Ingressos");
 
-        gerenciamentoOcorrenciaButton.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         gerenciamentoOcorrenciaButton.setText("Acessar Sistema de Gerenciamento de Ocorrências");
         gerenciamentoOcorrenciaButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -51,7 +50,6 @@ public class PaginaInicial extends javax.swing.JFrame {
             }
         });
 
-        ingressoOcorrenciaButton.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         ingressoOcorrenciaButton.setText("Acessar Sistema de Gerenciamento de Ingressos");
         ingressoOcorrenciaButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -113,7 +111,7 @@ public class PaginaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_gerenciamentoOcorrenciaButtonMouseReleased
 
     private void ingressoOcorrenciaButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ingressoOcorrenciaButtonMouseReleased
-        var gerenciamentoIngressosDialog = new GerenciamentoIngressosDialog(this);
+        var gerenciamentoIngressosDialog = new GerenciamentoIngressosDialog(this, true);
         gerenciamentoIngressosDialog.setLocationRelativeTo(this);
         gerenciamentoIngressosDialog.setVisible(true);
     }//GEN-LAST:event_ingressoOcorrenciaButtonMouseReleased
