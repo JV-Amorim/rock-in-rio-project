@@ -379,9 +379,11 @@ public class CadastroIngressoDialog extends javax.swing.JDialog {
                         .split("\\|")[0].trim().replace("CPF: ", "");
 
         Espectador eSelecionado = EspectadorDao.obterUm(cpfEspectador);
+        
         new EspectadorDao().excluir(eSelecionado);
         
-        cmbEspectador.remove(cmbEspectador.getSelectedIndex());
+        initCmbEspectador();
+        
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     /**
