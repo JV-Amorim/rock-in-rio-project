@@ -5,20 +5,38 @@ package br.edu.ifnmg.rockinrio.gui;
 
 public class MensagemGenericaDialog extends javax.swing.JDialog {
 
+    /**
+     * Dialog Genérico para exibição de informações.
+     *
+     * @param parent JFrame que invocou este dialog.
+     * @param windowTitulo Título da janela.
+     * @param mensagemTitulo Mensagem principal, que identifica as informações
+     * contidas na janela.
+     * @param mensagem Mensagem completa, com os detalhes
+     */
     public MensagemGenericaDialog(java.awt.Frame parent, String windowTitulo, String mensagemTitulo, String mensagem) {
         super(parent, true);
         initComponents();
-        
+
         super.setTitle(windowTitulo);
         mensagemTituloLabel.setText(mensagemTitulo);
         mensagemTextArea.setText(mensagem);
         mensagemTextArea.setEditable(false);
     }
 
+    /**
+     * Dialog Genérico para exibição de informações.
+     *
+     * @param parent JDialog que invocou este dialog.
+     * @param windowTitulo Título da janela.
+     * @param mensagemTitulo Mensagem principal, que identifica as informações
+     * contidas na janela.
+     * @param mensagem Mensagem completa, com os detalhes
+     */
     public MensagemGenericaDialog(java.awt.Dialog parent, String windowTitulo, String mensagemTitulo, String mensagem) {
         super(parent, true);
         initComponents();
-        
+
         super.setTitle(windowTitulo);
         mensagemTituloLabel.setText(mensagemTitulo);
         mensagemTextArea.setText(mensagem);

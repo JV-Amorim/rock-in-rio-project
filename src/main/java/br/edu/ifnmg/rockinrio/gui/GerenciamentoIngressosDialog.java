@@ -19,7 +19,9 @@ public class GerenciamentoIngressosDialog extends javax.swing.JDialog {
     private int indiceIngressoSelecionado;
 
     /**
-     * Creates new form GerenciamentoIngressosDialog
+     * Janela para Exibição dos ingressos existentes
+     * @param parent
+     * @param modal 
      */
     public GerenciamentoIngressosDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -33,6 +35,13 @@ public class GerenciamentoIngressosDialog extends javax.swing.JDialog {
         initComponents();
     }
 
+    /**
+     * Na criação de um ingresso novo, este método é chamado
+     * pelo dialog filho para atualizar a lista, passando o novo ingresso como
+     * parâmetro
+     * @param ingresso nova instância a ser inserida na lista (já persistida no
+     * banco de dados)
+     */
     public void inserirIngressoNaLista(Ingresso ingresso) {
         lstIngressosModel.addElement(ingresso);
     }
@@ -171,7 +180,11 @@ public class GerenciamentoIngressosDialog extends javax.swing.JDialog {
     private void buttonRetornarMenuPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRetornarMenuPrincipalActionPerformed
 
     }//GEN-LAST:event_buttonRetornarMenuPrincipalActionPerformed
-
+    /**
+     * Método que identifica o evento de clicar com o botão direito na lista,
+     * para abertura de um menu contendo a opção de Exclusão.
+     * @param evt 
+     */
     private void lstIngressosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstIngressosMouseReleased
         
         if (evt.getButton() == MouseEvent.BUTTON3 && lstIngressos.getModel().getSize() > 0) {

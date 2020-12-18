@@ -106,6 +106,11 @@ public class CadastroIngressoDialog extends javax.swing.JDialog {
         );
         novoIngresso.setNomeEspectador(nomePessoa);
 
+        /**
+         * Utiliza o comando Inserir para persistir o objeto recém criado no
+         * banco de dados. Depois atualiza a lista de ingressos com este novo
+         * Objeto.
+         */
         IngressoDao.inserir(novoIngresso);
         gerenciamentoIngressos.inserirIngressoNaLista(novoIngresso);
 
@@ -334,6 +339,12 @@ public class CadastroIngressoDialog extends javax.swing.JDialog {
         cadastrarEspectadorDialog.setVisible(true);
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
+    /**
+     * Ao clicar no botão editar, pega o CPF do Menu Combo de Espectador e
+     * busca essa instância no banco de dados, que terá seus dados repassados
+     * para um novo Dialog para edição.
+     * @param evt 
+     */
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
 
         String cpfEspectador

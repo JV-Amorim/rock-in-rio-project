@@ -28,7 +28,9 @@ public class EdicaoOcorrenciaDialog extends javax.swing.JDialog {
         initPessoasDropdown();
         preencherCamposOcorrencia();
     }
-    
+    /**
+     * Preenche o Menu Combo com as pessoas disponíveis no banco de dados
+     */
     private void initPessoasDropdown() {
         pessoas = PessoaDao.obterTodos();
         Integer indicePessoaOcorrenciaAtual = null;
@@ -49,6 +51,10 @@ public class EdicaoOcorrenciaDialog extends javax.swing.JDialog {
         }
     }
     
+    /**
+     * Como é uma edição, preenche os campos com os dados já existentes da ocorrência
+     * a ser editada
+     */
     private void preencherCamposOcorrencia() {
         tituloPrincipal.setText("Edição da ocorrência Nº " + ocorrenciaEmEdicao.getNumero());
         descricaoTextField.setText(ocorrenciaEmEdicao.getDescricao());
@@ -57,6 +63,11 @@ public class EdicaoOcorrenciaDialog extends javax.swing.JDialog {
         longitudeTextField.setText(ocorrenciaEmEdicao.getLongitude().toString());
     }
     
+    /**
+     * Através das informações dos campos disponíveis para edição, Atualiza
+     * a ocorrência já existente tanto no banco de dados como no menu combo de 
+     * ocorrências
+     */
     private void salvarAlteracoes() {
         String[] dropdownSelectedItem = ((String)pessoasDropdown.getSelectedItem()).split("\\|");
         

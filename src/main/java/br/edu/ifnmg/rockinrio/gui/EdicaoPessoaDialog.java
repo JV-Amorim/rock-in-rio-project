@@ -22,6 +22,10 @@ public class EdicaoPessoaDialog extends javax.swing.JDialog {
         preencherCamposPessoa();
     }
     
+    /**
+     * Como é uma edição, os campos são preenchidos para facilitar a alteração
+     * dos mesmos, afinal alguns dados podem permanecer os mesmos.
+     */
     private void preencherCamposPessoa() {
         tituloPrincipal.setText("Edição da pessoa com CPF " + pessoaEmEdicao.getCpf());
         
@@ -33,6 +37,10 @@ public class EdicaoPessoaDialog extends javax.swing.JDialog {
         numeroTextField.setText(pessoaEmEdicao.getEndereco().getNumero().toString());
     }
 
+    /**
+     * Aplica máscara nos campos e atualiza uma pessoa já existente com novas
+     * informações, tanto no banco de dados como na interface gráfica
+     */
     private void salvarAlteracoes() {
         String nome = nomeTextField.getText();
         String tipoPessoa = (String)tipoDropdown.getSelectedItem();

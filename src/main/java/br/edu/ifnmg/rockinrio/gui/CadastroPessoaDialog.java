@@ -19,6 +19,11 @@ public class CadastroPessoaDialog extends javax.swing.JDialog {
         this.parent = parent;
     }
     
+    /**
+     * Busca as informações dos campos disponíveis para criação de um novo
+     * Objeto do tipo pessoa que será persistido no Banco de dados através
+     * da classe PessoaDao
+     */
     private void salvarAlteracoes() {
         String cpf = getCpfTextFieldConteudo();
         String nome = nomeTextField.getText();
@@ -87,7 +92,10 @@ public class CadastroPessoaDialog extends javax.swing.JDialog {
         
         dispose();
     }
-    
+    /**
+     * Aplica mascara no campo CPF
+     * @return 
+     */
     private String getCpfTextFieldConteudo() {
         String cpf = cpfTextField.getText();
         
@@ -98,6 +106,10 @@ public class CadastroPessoaDialog extends javax.swing.JDialog {
         return cpf;
     }
     
+    /**
+     * Máscara do campo Data, verifica se é válida ou não
+     * @return 
+     */
     private LocalDate getDataNascimentoTextFieldConteudo() {
         LocalDate dataNascimento;
         

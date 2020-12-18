@@ -28,6 +28,11 @@ public class CadastroOcorrenciaDialog extends javax.swing.JDialog {
         initPessoasDropdown();
     }
     
+    /**
+     * Inicializa / Preenche o Menu Combo de pessoas através do método
+     * obterTodos da classe PessoaDao, que busca todas as pessoas persistidas
+     * no Banco de dados.
+     */
     private void initPessoasDropdown() {
         pessoas = PessoaDao.obterTodos();
         pessoasDropdown.removeAllItems();
@@ -38,6 +43,10 @@ public class CadastroOcorrenciaDialog extends javax.swing.JDialog {
         }
     }
     
+    /**
+     * Após fazer a verificação da consistência dos dados, cria um novo 
+     * Objeto do tipo ocorrência que será persistido no banco de dados.
+     */
     private void salvarAlteracoes() {
         String[] dropdownSelectedItem = ((String)pessoasDropdown.getSelectedItem()).split("\\|");
         
@@ -129,7 +138,10 @@ public class CadastroOcorrenciaDialog extends javax.swing.JDialog {
         return longitude;
     }
     
-    
+    /**
+     * Atualiza o Menu Combo de pessoas com a Pessoa criada.
+     * @param pessoa 
+     */
     public void atualizarListaComNovaPessoa(Pessoa pessoa) {
         int indiceDaPessoaNaLista = -1;
         
@@ -410,7 +422,10 @@ public class CadastroOcorrenciaDialog extends javax.swing.JDialog {
     private void salvarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarButtonActionPerformed
         
     }//GEN-LAST:event_salvarButtonActionPerformed
-
+    /**
+     * Exibe uma Janela com as informações Detalhadas da pessoa selecionada
+     * @param evt 
+     */
     private void detalhesPessoaButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_detalhesPessoaButtonMouseReleased
         String cpfPessoa =
             ((String)pessoasDropdown.getSelectedItem())

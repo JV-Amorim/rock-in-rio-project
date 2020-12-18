@@ -5,6 +5,11 @@ package br.edu.ifnmg.rockinrio.gui;
 
 public class MensagemErroDialog extends javax.swing.JDialog {
     
+    /**
+     * Pequeno dialog para exibição de erros.
+     * @param parent
+     * @param erros 
+     */
     public MensagemErroDialog(java.awt.Frame parent, String erros) {
         super(parent, true);
         initComponents();

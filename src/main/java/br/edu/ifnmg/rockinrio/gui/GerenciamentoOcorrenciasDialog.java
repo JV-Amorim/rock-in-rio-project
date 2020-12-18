@@ -18,6 +18,12 @@ public class GerenciamentoOcorrenciasDialog extends javax.swing.JDialog {
     private int indiceOcorrenciaEditavelSelecionada;
     private int indiceOcorrenciaLeituraSelecionada;
     
+    /**
+     * Dialog para Exibição de ocorrências
+     * @param paginaInicial Página principal, que chama esta janela
+     * @param cpfProfissionalLogado cpf do profissional que está usando o sistema
+     * @param nomeProfissionalLogado nome do profissional que está usando o sistema
+     */
     public GerenciamentoOcorrenciasDialog(
         PaginaInicial paginaInicial,
         String cpfProfissionalLogado,
@@ -34,6 +40,13 @@ public class GerenciamentoOcorrenciasDialog extends javax.swing.JDialog {
         nomeUsuarioLogado.setText("Usuário: " + getNomeEncurtadoProfissionalSeguranca());
     }
     
+    /**
+     * Inicializa as listas com suas respectivas ocorrências, uma lista é
+     * das ocorrencias criadas pelo profissional logado, ele pode obter detalhes,
+     * excluí-las ou editá-las (leitura e escrita). Já as ocorrências não 
+     * registradas por ele, aparecem em outra lista e ele só pode 
+     * obter detalhes (apenas leitura)
+     */
     private void initDados() {
         ocorrenciasEditaveis = new DefaultListModel<>();
         ocorrenciasLeitura = new DefaultListModel<>();
@@ -62,6 +75,11 @@ public class GerenciamentoOcorrenciasDialog extends javax.swing.JDialog {
         ocorrenciasEditaveis.remove(indiceOcorrenciaEditavelSelecionada);
     }
     
+    /**
+     * Método que pega apenas o primeiro nome do Profissional de segurança,
+     * que será usado para descrever o login atual nas janelas.
+     * @return 
+     */
     private String getNomeEncurtadoProfissionalSeguranca() {
         String nomeEncurtado;
         String[] nomeCompletoSplitted = nomeProfissionalLogado.split(" ");
@@ -296,6 +314,10 @@ public class GerenciamentoOcorrenciasDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_listaOcorrenciasLeituraMouseReleased
 
+    /**
+     * Cria um dialog para exibir informações adicionais das ocorrências editáveis.
+     * @param evt evento de clique na opção "detalhes"
+     */
     private void menuItemDetalhesEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemDetalhesEActionPerformed
         Ocorrencia ocorrenciaSelecionada = listaOcorrenciasEditaveis.getSelectedValue();
         
@@ -330,6 +352,10 @@ public class GerenciamentoOcorrenciasDialog extends javax.swing.JDialog {
         edicaoOcorrenciaDialog.setVisible(true);
     }//GEN-LAST:event_menuItemEditarActionPerformed
 
+    /**
+     * Cria um dialog para exibir informações adicionais das ocorrências não editáveis.
+     * @param evt evento de clique na opção "detalhes"
+     */
     private void menuItemDetalhesLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemDetalhesLActionPerformed
         Ocorrencia ocorrenciaSelecionada = listaOcorrenciasLeitura.getSelectedValue();
         

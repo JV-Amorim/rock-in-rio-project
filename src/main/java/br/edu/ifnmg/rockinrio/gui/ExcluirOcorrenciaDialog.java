@@ -11,6 +11,11 @@ public class ExcluirOcorrenciaDialog extends javax.swing.JDialog {
     private final GerenciamentoOcorrenciasDialog gerenciamentoOcorrencias;
     private final Ocorrencia ocorrenciaSelecionada;
     
+    /**
+     * Janela simples para confirmação da Exclusão da ocorrência
+     * @param gerenciamentoOcorrencias Dialog que chama esta janela
+     * @param ocorrencia ocorrência a ser excluida
+     */
     public ExcluirOcorrenciaDialog(GerenciamentoOcorrenciasDialog gerenciamentoOcorrencias, Ocorrencia ocorrencia) {
         super(gerenciamentoOcorrencias, true);
         initComponents();

@@ -3,6 +3,11 @@
  */
 package br.edu.ifnmg.rockinrio.gui;
 
+/**
+ * Janela principal, Início do programa. Dá 2 opções, ir pro gerenciamento de 
+ * Ocorrências ou de Ingressos
+ * @author Anderson Gomes
+ */
 public class PaginaInicial extends javax.swing.JFrame {
 
     public PaginaInicial() {
