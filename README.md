@@ -17,7 +17,7 @@ O projeto é um sistema fictício para o evento Rock In Rio.  Entretanto, o sist
 
 1. Instale o OpenJDK 15.
 2. Instale o driver de conexão com o banco de dados Oracle, caso ainda não tenha instalado (o arquivo .jar do driver pode ser encontrado no .zip onde esse documento foi encontrado).
-3. Configure o arquivo db.properties (diretório <raiz-do-projeto>/build /classes/db.properties) com os seus dados de acesso ao servidor de banco de dados Oracle. A tag *url* recebe a url de conexão com o servidor de banco de dados, enquanto o *user* e *password* tratam-se, respectivamente, do seu usuário e senha de acesso ao banco de dados.
+3. Configure o arquivo db.properties (diretório \<raiz-do-projeto\>/src/main/resources/db.properties) com os seus dados de acesso ao servidor de banco de dados Oracle. A tag *url* recebe a url de conexão com o servidor de banco de dados, enquanto o *user* e *password* tratam-se, respectivamente, do seu usuário e senha de acesso ao banco de dados.
 4. Realize o build do projeto e execute-o através da linha de comando ou de sua IDE de preferência.
 
 ## Screenshots
@@ -30,5 +30,5 @@ O projeto é um sistema fictício para o evento Rock In Rio.  Entretanto, o sist
 
 <img src="./img/04.png" alt="04" style="zoom:80%;" />
 
-<img src="./img/README\05.png" alt="05" style="zoom:80%;" />
+<img src="./img/05.png" alt="05" style="zoom:80%;" />
 
