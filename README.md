@@ -6,7 +6,7 @@ Projeto de conclusão das disciplinas de BD e POO (Ciência da Computação/IFNM
 
 O projeto é um sistema fictício para o evento Rock In Rio.  Entretanto, o sistema limita-se somente ao gerenciamento de ocorrências e ingressos, possibilitando a criação, edição, deleção e visualização destes. Durante o processo de criação e edição de ocorrências e ingressos, também é possível realizar a criação e edição de cadastros de pessoas.
 
-Para saber mais sobre o projeto, veja a [apresentação em vídeo](https://www.youtube.com/watch?v=n8WIeDeUInY&feature=youtu.be).
+Para saber mais sobre o projeto, veja a [apresentação em vídeo](https://youtu.be/n8WIeDeUInY).
 
 ## Ferramentas Utilizadas
 
