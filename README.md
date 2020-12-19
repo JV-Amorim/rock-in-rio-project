@@ -8,6 +8,8 @@ O projeto é um sistema fictício para o evento Rock In Rio.  Entretanto, o sist
 
 Para saber mais sobre o projeto, veja a [apresentação em vídeo](https://youtu.be/n8WIeDeUInY).
 
+[Clique aqui para acessar o Diagrama de Classes](https://github.com/JV-Amorim/rock-in-rio-project/blob/master/img/Diagrama%20de%20Classes.png).
+
 ## Ferramentas Utilizadas
 
 - Ambiente de desenvolvimento: Apache Netbeans IDE 12.0;
