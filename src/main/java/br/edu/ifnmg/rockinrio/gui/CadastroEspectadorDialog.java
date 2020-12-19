@@ -55,7 +55,12 @@ public class CadastroEspectadorDialog extends javax.swing.JDialog {
      */
     private void salvarEspectador() {
 
-        int codigo = EspectadorDao.obterProximoCodigo();
+        int codigo;
+        if(novo){
+            codigo = EspectadorDao.obterProximoCodigo();
+        }else{
+            codigo = eSelecionado.getCodigo();
+        }
         String cpf = txtCpf.getText();
         String nome = txtNome.getText();
         String tipoPessoa = "Espectador";

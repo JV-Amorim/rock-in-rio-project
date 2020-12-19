@@ -60,7 +60,7 @@ public class EspectadorDao {
     public static Boolean atualizar(Espectador espectador) {
         String sqlStatement
                 = "UPDATE PESSOA SET TIPOPESSOA=?, DATANASCIMENTO=?,"
-                + " NOME=?, CEP=?, BAIRRO=?, NUMERO=?, RUA=? WHERE CPF=?;";
+                + " NOME=?, CEP=?, BAIRRO=?, NUMERO=?, RUA=? WHERE CPF=?";
 
         try ( PreparedStatement pstmt = DatabaseManager.getConnection().prepareStatement(sqlStatement)) {
             pstmt.setString(1, espectador.getTipoPessoa());
